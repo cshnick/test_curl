@@ -35,7 +35,9 @@ QString getPageContent(const QString &sourcePage) {
 
 int main()
 {
-    cout << "Hello World!" << endl;
+#if __cplusplus > 201100L
+    cout << "Hello C++11 World!" << endl;
+#endif
 //    getPageContent("www.w3schools.com/xml/note.xml");
     url::Loader ldr("rss.timegenie.com/forex.xml");
 

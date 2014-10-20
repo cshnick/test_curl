@@ -10,9 +10,12 @@ static int writer(char *data, size_t size, size_t nmemb,
 	if (writerData == nullptr)
 		return 0;
 
+//    qDebug() << "data" << data;
+//    qDebug() << "len" << strlen(data);
+
 	writerData->append(data);
 
-	return strlen(data);
+    return size*nmemb;
 }
 
 int loader_main(int argc, const char**argv) {
@@ -34,7 +37,6 @@ public:
 		CURL *conn = NULL;
 		CURLcode code;
 		std::string title;
-		QString buffer;
 
 		curl_global_init(CURL_GLOBAL_DEFAULT);
 		conn = curl_easy_init();
@@ -67,7 +69,7 @@ public:
 			m_buffer.clear();
 			return false;
 		}
-		code = curl_easy_setopt(conn, CURLOPT_WRITEDATA, &buffer);
+        code = curl_easy_setopt(conn, CURLOPT_WRITEDATA, &m_buffer);
 		if (code != CURLE_OK) {
 			fprintf(stderr, "Failed to set write data [%s]\n", m_errorBuffer);
 			m_buffer.clear();
@@ -93,10 +95,10 @@ Loader::Loader() :
 	p(new LoaderPrivate(this))
 {
 }
-Loader::Loader(const QString &p_url)
+Loader::Loader(const QString &p_url) :
+    Loader()
 {
-	Loader();
-	p->m_url = p_url;
+    p->m_url = p_url;
 	const char *p_argv[] = {"string1", "rss.timegenie.com/forex.xml"};
 
 	if (p->getBuffer()) {
