@@ -1,7 +1,7 @@
 project(fw_currency)
 cmake_minimum_required(VERSION 2.8)
 
-find_package(Qt4 REQUIRED)
+find_package(Qt4 COMPONENTS QtCore QtXml REQUIRED)
 include (${QT_USE_FILE})
 
 
@@ -19,6 +19,7 @@ set (SOURCES
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+SET(CMAKE_CXX_FLAGS "-std=c++11")
 
 set (EXT_LIBS
     curl

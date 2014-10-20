@@ -2,20 +2,28 @@
 #define LOADER_H
 
 #include <QString>
+#include <QtXml>
+
+#include "curl/curl.h"
 
 namespace url {
+class LoaderPrivate;
 
 class Loader
 {
+	friend class LoaderPrivate;
 public:
     Loader();
     Loader(const QString &p_url);
-    QString url() const {return m_url;}
-    void setUrl(const QString &p_url) {m_url = p_url;}
+    ~Loader();
+    QString url() const;
+    void setUrl(const QString &p_url);
+    void refresh();
+
+    QDomDocument parseBuffer(const QString &p_buffer);
 
 private:
-    QString m_url;
-    mutable int m_error;
+    LoaderPrivate *p;
 };
 
 } //namespace url
