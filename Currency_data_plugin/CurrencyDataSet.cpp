@@ -46,6 +46,7 @@
 
 CurrencyDataSet::CurrencyDataSet(QObject *parent)
     : QObject(parent)
+    , m_loader(new url::Loader)
 {
 }
 
@@ -61,7 +62,38 @@ void CurrencyDataSet::setName(const QString &name)
 
 QQmlListProperty<CurrencyData> CurrencyDataSet::dataSet()
 {
-    return QQmlListProperty<CurrencyData>(this, 0, &CurrencyDataSet::append_data, 0, 0, 0);
+    return QQmlListProperty<CurrencyData>(this, 0, &CurrencyDataSet::append_data
+                                          , &CurrencyDataSet::count_data, 0, 0);
+}
+
+const QString CurrencyDataSet::dataUrl() const {
+    return "rss.timegenie.com/forex.xml";
+}
+
+void CurrencyDataSet::fillVector()
+{
+    m_loader->setUrl(dataUrl());
+    QDomDocument doc = m_loader->getDom();
+    if (doc.isNull()) {
+        qDebug() << "No data within DOM";
+        return;
+    }
+    for (QDomElement nx = doc.documentElement().firstChildElement(); !nx.isNull(); nx = nx.nextSiblingElement()) {
+        if (nx.tagName() != "data") {
+            continue;
+        }
+        CurrencyData *cel = new CurrencyData;
+        for (QDomElement sx = nx.firstChildElement(); !sx.isNull(); sx = sx.nextSiblingElement()) {
+            if (sx.tagName() == "code") {
+                cel->setCode(sx.text());
+            } else if (sx.tagName() == "description") {
+                cel->setName(sx.text());
+            } else if (sx.tagName() == "rate") {
+                cel->setValue(sx.text().toDouble());
+            }
+        }
+        m_dataSet << cel;
+    }
 }
 
 void CurrencyDataSet::append_data(QQmlListProperty<CurrencyData> *list, CurrencyData *p_data)
@@ -72,3 +104,27 @@ void CurrencyDataSet::append_data(QQmlListProperty<CurrencyData> *list, Currency
         dset->m_dataSet.append(p_data);
     }
 }
+
+int CurrencyDataSet::count_data(QQmlListProperty<CurrencyData> *list)
+{
+    int res = 0;
+    CurrencyDataSet *dset = qobject_cast<CurrencyDataSet*>(list->object);
+    if (dset) {
+        res = dset->m_dataSet.count();
+    }
+
+    return res;
+}
+
+CurrencyData *CurrencyDataSet::data_at(QQmlListProperty<CurrencyData> *list, int index)
+{
+    CurrencyData *res = nullptr;
+    CurrencyDataSet *dset = qobject_cast<CurrencyDataSet*>(list->object);
+    if (dset) {
+        res = dset->m_dataSet.at(index);
+    }
+    return res;
+}
+
+
+

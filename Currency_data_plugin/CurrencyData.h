@@ -59,13 +59,13 @@ public:
     QString name() const;
     void setName(const QString &name);
 
-    int value() const;
-    void setValue(int value);
+    qreal value() const;
+    void setValue(qreal value);
 
 private:
     QString m_code;
     QString m_name;
-    int m_value;
+    qreal m_value;
 };
 
 #endif

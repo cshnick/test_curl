@@ -34,6 +34,10 @@ public:
 			return false;
 		}
 
+        if (!m_buffer.isNull()) {
+            m_buffer.clear();
+        }
+
 		CURL *conn = NULL;
 		CURLcode code;
 		std::string title;
@@ -99,11 +103,6 @@ Loader::Loader(const QString &p_url) :
     Loader()
 {
     p->m_url = p_url;
-	const char *p_argv[] = {"string1", "rss.timegenie.com/forex.xml"};
-
-	if (p->getBuffer()) {
-		parseBuffer(p->m_buffer);
-	}
 }
 Loader::~Loader()
 {
@@ -121,10 +120,14 @@ void Loader::refresh()
 {
 	p->getBuffer();
 }
-QDomDocument Loader::parseBuffer(const QString &p_buffer)
+QDomDocument Loader::getDom()
 {
 	QDomDocument res;
-	if (!res.setContent(p_buffer)) {
+//    refresh();
+    if (p->m_buffer.isNull()) {
+        p->getBuffer();
+    }
+    if (!res.setContent(p->m_buffer)) {
 		fprintf(stderr, "Failed to parse buffer. Invalid content\n");
 		return QDomDocument();
 	}

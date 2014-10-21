@@ -1,6 +1,7 @@
 #ifndef LOADER_H
 #define LOADER_H
 
+#include "../global.h"
 #include <QString>
 #include <QtXml>
 
@@ -9,7 +10,7 @@
 namespace url {
 class LoaderPrivate;
 
-class Loader
+class URLLOADER_EXPORT Loader
 {
 	friend class LoaderPrivate;
 public:
@@ -20,7 +21,7 @@ public:
     void setUrl(const QString &p_url);
     void refresh();
 
-    QDomDocument parseBuffer(const QString &p_buffer);
+    QDomDocument getDom();
 
 private:
     LoaderPrivate *p;

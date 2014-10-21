@@ -1,2 +1,2 @@
-module CurrencyDataSet
+module CurrcData
 plugin currcdataplugin

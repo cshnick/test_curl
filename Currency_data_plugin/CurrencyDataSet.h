@@ -44,6 +44,9 @@
 #include <QQmlListProperty>
 
 class CurrencyData;
+namespace url {
+class Loader;
+}
 
 class CurrencyDataSet : public QObject
 {
@@ -58,12 +61,20 @@ public:
     void setName(const QString &name);
 
     QQmlListProperty<CurrencyData> dataSet();
+    const QString dataUrl() const;
+
+private:
+    void fillVector();
 
 private:
     static void append_data(QQmlListProperty<CurrencyData> *list, CurrencyData* p_data);
+    static int count_data(QQmlListProperty<CurrencyData> *list);
+    static CurrencyData* data_at(QQmlListProperty<CurrencyData> *list, int index);
+
 
     QString m_name;
     QList<CurrencyData *> m_dataSet;
+    url::Loader *m_loader;
 };
 
 #endif

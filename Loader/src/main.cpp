@@ -33,13 +33,33 @@ QString getPageContent(const QString &sourcePage) {
     return QString();
 }
 
+#include "../Currency_data_plugin/CurrencyData.h"
+
 int main()
 {
 #if __cplusplus > 201100L
     cout << "Hello C++11 World!" << endl;
 #endif
 //    getPageContent("www.w3schools.com/xml/note.xml");
+    QList<CurrencyData*> lst;
     url::Loader ldr("rss.timegenie.com/forex.xml");
-
+    QDomDocument doc = ldr.getDom();
+    for (QDomElement nx = doc.documentElement().firstChildElement(); !nx.isNull(); nx = nx.nextSiblingElement()) {
+        if (nx.tagName() != "data") {
+            continue;
+        }
+        CurrencyData *cel = new CurrencyData;
+        for (QDomElement sx = nx.firstChildElement(); !sx.isNull(); sx = sx.nextSiblingElement()) {
+            if (sx.tagName() == "code") {
+                cel->setCode(sx.text());
+            } else if (sx.tagName() == "description") {
+                cel->setName(sx.text());
+            } else if (sx.tagName() == "rate") {
+                cel->setValue(sx.text().toDouble());
+            }
+        }
+        lst << cel;
+    }
+    qDebug() << "main finished";
     return 0;
 }

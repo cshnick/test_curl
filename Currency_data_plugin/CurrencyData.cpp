@@ -64,12 +64,12 @@ void CurrencyData::setName(const QString &name)
     m_name = name;
 }
 
-int CurrencyData::value() const
+qreal CurrencyData::value() const
 {
     return m_value;
 }
 
-void CurrencyData::setValue(int value)
+void CurrencyData::setValue(qreal value)
 {
     m_value = value;
 }
