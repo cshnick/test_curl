@@ -63,6 +63,8 @@ public:
     QQmlListProperty<CurrencyData> dataSet();
     const QString dataUrl() const;
 
+    Q_INVOKABLE void refresh();
+
 private:
     void fillVector();
 

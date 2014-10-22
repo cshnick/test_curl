@@ -45,8 +45,10 @@
 
 void ChartsPlugin::registerTypes(const char *uri)
 {
-    qmlRegisterType<CurrencyDataSet>(uri, 1, 0, "PieChart");
-    qmlRegisterType<CurrencyData>(uri, 1, 0, "PieSlice");
+   // @uri CurrcData
+    qmlRegisterType<CurrencyDataSet>(uri, 1, 0, "CurrencyDataSet");
+    qmlRegisterType<CurrencyData>(uri, 1, 0, "CurrencyData");
+    qmlRegisterType<A>(uri, 1, 0, "A");
 }
 
 //![0]

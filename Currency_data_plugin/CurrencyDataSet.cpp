@@ -43,7 +43,6 @@
 
 #include "../Loader/src/loader.h"
 
-
 CurrencyDataSet::CurrencyDataSet(QObject *parent)
     : QObject(parent)
     , m_loader(new url::Loader)
@@ -63,11 +62,25 @@ void CurrencyDataSet::setName(const QString &name)
 QQmlListProperty<CurrencyData> CurrencyDataSet::dataSet()
 {
     return QQmlListProperty<CurrencyData>(this, 0, &CurrencyDataSet::append_data
-                                          , &CurrencyDataSet::count_data, 0, 0);
+                                          , &CurrencyDataSet::count_data
+                                          , &CurrencyDataSet::data_at
+                                          , 0);
 }
 
 const QString CurrencyDataSet::dataUrl() const {
     return "rss.timegenie.com/forex.xml";
+}
+
+void CurrencyDataSet::refresh()
+{
+    qDeleteAll(m_dataSet);
+    m_dataSet.clear();
+
+    QTime cur = QTime::currentTime();
+    qDebug() << "Starting filling data";
+    fillVector();
+    qDebug() << "retreived data, elapsed time" << cur.msecsTo(QTime::currentTime());
+    qDebug() << "new count" << m_dataSet.count();
 }
 
 void CurrencyDataSet::fillVector()
@@ -107,6 +120,7 @@ void CurrencyDataSet::append_data(QQmlListProperty<CurrencyData> *list, Currency
 
 int CurrencyDataSet::count_data(QQmlListProperty<CurrencyData> *list)
 {
+    qDebug() << "retreiving count data";
     int res = 0;
     CurrencyDataSet *dset = qobject_cast<CurrencyDataSet*>(list->object);
     if (dset) {
@@ -118,6 +132,7 @@ int CurrencyDataSet::count_data(QQmlListProperty<CurrencyData> *list)
 
 CurrencyData *CurrencyDataSet::data_at(QQmlListProperty<CurrencyData> *list, int index)
 {
+    qDebug() << "Checking qml index" << index;
     CurrencyData *res = nullptr;
     CurrencyDataSet *dset = qobject_cast<CurrencyDataSet*>(list->object);
     if (dset) {

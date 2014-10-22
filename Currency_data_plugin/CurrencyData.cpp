@@ -38,10 +38,22 @@
 **
 ****************************************************************************/
 #include "CurrencyData.h"
+#include <QDebug>
+
+static QColor genColor() {
+    int r = qrand() % 0xFF;
+    int g = qrand() % 0xFF;
+    int b = qrand() % 0XFF;
+
+    return QColor(r, g, b);
+//    return Qt::black;
+}
 
 CurrencyData::CurrencyData(QObject *parent)
     : QObject(parent)
 {
+    m_color = genColor();
+    m_altcolor = m_color.name();
 }
 
 QString CurrencyData::code() const
@@ -72,4 +84,24 @@ qreal CurrencyData::value() const
 void CurrencyData::setValue(qreal value)
 {
     m_value = value;
+}
+
+QColor CurrencyData::color_val()
+{
+    return m_color;
+}
+
+void CurrencyData::setColor_val(const QColor &p_col)
+{
+    m_color = p_col;
+}
+
+QString CurrencyData::alt_color()
+{
+    return m_altcolor;
+}
+
+void CurrencyData::setAlt_color(const QString &p_col)
+{
+    m_altcolor = p_col;
 }

@@ -42,6 +42,7 @@
 
 #include <QString>
 #include <QObject>
+#include <QColor>
 
 class CurrencyData : public QObject
 {
@@ -49,6 +50,8 @@ class CurrencyData : public QObject
     Q_PROPERTY(QString code READ code WRITE setCode)
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(qreal value READ value WRITE setValue)
+    Q_PROPERTY(QColor color_val READ color_val WRITE setColor_val)
+    Q_PROPERTY(QString alt_color READ alt_color WRITE setAlt_color)
 
 public:
     CurrencyData(QObject *parent = 0);
@@ -62,11 +65,41 @@ public:
     qreal value() const;
     void setValue(qreal value);
 
+    QColor color_val();
+    void setColor_val(const QColor &p_col);
+
+    QString alt_color();
+    void setAlt_color(const QString &p_col);
+
 private:
     QString m_code;
     QString m_name;
     qreal m_value;
+    QColor m_color;
+    QString m_altcolor;
 };
+
+class A : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString test READ test WRITE setTest NOTIFY testChanged)
+public:
+    explicit A(QObject *parent = 0) : QObject(parent){}
+
+    QString test(){return myTest;}
+
+    void setTest(QString t){
+        myTest = t;
+        testChanged(myTest);
+    }
+
+signals:
+    void testChanged(QString t);
+
+private:
+    QString myTest;
+};
+
 
 #endif
 
