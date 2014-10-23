@@ -40,20 +40,9 @@
 #include "CurrencyData.h"
 #include <QDebug>
 
-static QColor genColor() {
-    int r = qrand() % 0xFF;
-    int g = qrand() % 0xFF;
-    int b = qrand() % 0XFF;
-
-    return QColor(r, g, b);
-//    return Qt::black;
-}
-
 CurrencyData::CurrencyData(QObject *parent)
     : QObject(parent)
 {
-    m_color = genColor();
-    m_altcolor = m_color.name();
 }
 
 QString CurrencyData::code() const

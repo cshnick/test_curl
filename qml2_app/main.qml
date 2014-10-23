@@ -71,17 +71,18 @@ Window {
             model: ListModel {
                 id: l_model
 
+
                 function fillModel() {
                     d_set.refresh()
-
-                    for (var i = 0; i < d_set.dataSet.length; i++) {
+                    var end = d_set.dataSet.length
+                    for (var i = 0; i < end; i++) {
                         var si = d_set.dataSet[i]
-                        console.log(si.name)
-                        console.log("Color " + si.color_val.name + "Alt color: " + si.alt_color)
+                        //                        console.log(si.name)
+                        //                        console.log("Color " + si.color_val.name + "Alt color: " + si.alt_color)
                         append({name:          si.name,
-                                colorCode:     si.alt_color,
-                                currency_code: si.code,
-                                value:         si.value
+                                   colorCode:     si.alt_color,
+                                   currency_code: si.code,
+                                   value:         si.value
                                })
                     }
                 }

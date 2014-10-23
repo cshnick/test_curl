@@ -43,10 +43,83 @@
 
 #include "../Loader/src/loader.h"
 
+static QColor genColor() {
+    int r = qrand() % 0xFF;
+    int g = qrand() % 0xFF;
+    int b = qrand() % 0XFF;
+
+    return QColor(r, g, b);
+//    return Qt::black;
+}
+
+static const QString g_fileName = "/home/ilia/Development/Qt/Projects/build-qml_currency-Desktop_Qt_5_3_GCC_64bit-Debug/bin/CurrcData/colors.dat";
+static void genColorsAsStream(const QString fileName, uint elCount) {
+    if (!QFileInfo(fileName).dir().exists()) {
+        qDebug() << "Directory" << fileName << "does not exist";
+        return;
+    }
+
+    qDebug() << "Starting export" << elCount << "elements to" << fileName << "...";
+    QTime cur = QTime::currentTime();
+
+    QFile file(fileName);
+    file.open(QIODevice::WriteOnly);
+
+    QDataStream out(&file);
+    out << elCount;
+    for (uint ind = 0; ind < elCount; ind++) {
+        out << genColor().rgba();
+    }
+    file.close();
+
+    qDebug() << "Finished color map generation, elapsed time" << cur.msecsTo(QTime::currentTime());
+}
+
+static struct GColorStack {
+    GColorStack() : m_counter(0) {
+        qDebug() << "GColorStack constructor";
+
+        if (QFileInfo(g_fileName).exists()) {
+            m_file.setFileName(g_fileName);
+            m_file.open(QIODevice::ReadOnly);
+            m_dataStream.setDevice(&m_file);
+            m_dataStream >> m_count;
+            qDebug() << "GColorStack created, elements number" << m_count;
+        } else {
+            qDebug() << "File" << g_fileName << "does not exist";
+        }
+    }
+
+    ~GColorStack() {
+        m_file.close();
+    }
+
+    uint getValue() {
+        if (++m_counter == m_count) {
+            m_counter = 0;
+            m_file.close();
+            m_file.open(QIODevice::ReadOnly);
+
+            m_dataStream.setDevice(&m_file);
+        }
+
+        uint tmp;
+        m_dataStream >> tmp;
+
+        return tmp;
+    }
+
+    QDataStream m_dataStream;
+    QFile m_file;
+    uint m_count;
+    uint m_counter;
+} g_color_stack;
+
 CurrencyDataSet::CurrencyDataSet(QObject *parent)
     : QObject(parent)
     , m_loader(new url::Loader)
 {
+//    genColorsAsStream(g_fileName, 1000000);
 }
 
 QString CurrencyDataSet::name() const
@@ -105,6 +178,8 @@ void CurrencyDataSet::fillVector()
                 cel->setValue(sx.text().toDouble());
             }
         }
+        uint nextValue = g_color_stack.getValue();
+        cel->setAlt_color(QColor::fromRgba(nextValue).name());
         m_dataSet << cel;
     }
 }
@@ -120,7 +195,7 @@ void CurrencyDataSet::append_data(QQmlListProperty<CurrencyData> *list, Currency
 
 int CurrencyDataSet::count_data(QQmlListProperty<CurrencyData> *list)
 {
-    qDebug() << "retreiving count data";
+//    qDebug() << "retreiving count data";
     int res = 0;
     CurrencyDataSet *dset = qobject_cast<CurrencyDataSet*>(list->object);
     if (dset) {
@@ -132,7 +207,7 @@ int CurrencyDataSet::count_data(QQmlListProperty<CurrencyData> *list)
 
 CurrencyData *CurrencyDataSet::data_at(QQmlListProperty<CurrencyData> *list, int index)
 {
-    qDebug() << "Checking qml index" << index;
+//    qDebug() << "Checking qml index" << index;
     CurrencyData *res = nullptr;
     CurrencyDataSet *dset = qobject_cast<CurrencyDataSet*>(list->object);
     if (dset) {
