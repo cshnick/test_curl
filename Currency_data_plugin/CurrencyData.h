@@ -68,7 +68,7 @@ public:
     QColor color_val();
     void setColor_val(const QColor &p_col);
 
-    QString alt_color();
+    QString alt_color() const;
     void setAlt_color(const QString &p_col);
 
 private:

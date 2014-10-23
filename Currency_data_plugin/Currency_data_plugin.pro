@@ -9,12 +9,14 @@ TARGET = $$qtLibraryTarget(currcdataplugin)
 HEADERS += \
     CurrencyData.h \
     CurrencyDataSet.h \
-    currcplugin.h
+    currcplugin.h \
+    model.h
 
 SOURCES += \
     CurrencyData.cpp \
     CurrencyDataSet.cpp \
-    currcplugin.cpp
+    currcplugin.cpp \
+    model.cpp
 
 LIBS += -L$${OUT_PWD}/../bin/CurrcData -lurlLoader
 message("looking for a bin"$${OUT_PWD}/../bin)

@@ -85,7 +85,7 @@ void CurrencyData::setColor_val(const QColor &p_col)
     m_color = p_col;
 }
 
-QString CurrencyData::alt_color()
+QString CurrencyData::alt_color() const
 {
     return m_altcolor;
 }
