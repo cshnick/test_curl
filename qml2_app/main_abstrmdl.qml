@@ -19,17 +19,36 @@ Window {
         id: column1
         anchors.fill: parent
         width: parent.width
+        anchors.topMargin: 5
 
         //CurrencyData {id: data_set}
 
-        TextInput {
+        CLineEdit {
+
             id: ti1
-            horizontalAlignment: Text.AlignRight
-            font.pointSize: 12
-            anchors.top: parent.top
+            height: 25
+            color: "#2E6496"
+            text: qsTr("Line edit text")
+            anchors.left: parent.left
+            anchors.leftMargin: 5
+            //            anchors.leftMargin: 0
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+            anchors.bottomMargin: 5
+            anchors.topMargin: 5
+            font.pixelSize: 12
+
         }
 
         ScrollView {
+            anchors.topMargin: 5
+            anchors.top: ti1.bottom
+            anchors.right: parent.right
+            anchors.left: parent.left
+            anchors.rightMargin: 5
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 5
+
             ListView {
                 id: listView1
                 //            anchors.topMargin: 5
@@ -75,10 +94,6 @@ Window {
                     id: dataModel
 
                     Component.onCompleted: dataModel.refresh()
-                }
-                TestComponent {
-                    id: testComp
-                    anchors.fill: parent
                 }
             }
         }
