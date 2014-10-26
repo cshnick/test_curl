@@ -10,13 +10,15 @@ HEADERS += \
     CurrencyData.h \
     CurrencyDataSet.h \
     currcplugin.h \
-    model.h
+    model.h \
+    currencyfiltermodel.h
 
 SOURCES += \
     CurrencyData.cpp \
     CurrencyDataSet.cpp \
     currcplugin.cpp \
-    model.cpp
+    model.cpp \
+    currencyfiltermodel.cpp
 
 LIBS += -L$${OUT_PWD}/../bin/CurrcData -lurlLoader
 message("looking for a bin"$${OUT_PWD}/../bin)

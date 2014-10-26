@@ -5,7 +5,7 @@ import CurrcData 1.0
 
 Window {
     visible: true
-    width: 360
+    width: 300
     height: 360
 
     //    MouseArea {
@@ -37,10 +37,10 @@ Window {
             anchors.bottomMargin: 5
             anchors.topMargin: 5
             font.pixelSize: 12
-
+            onLe_textChanged: dataModel.stringChanged(text)
         }
 
-        ScrollView {
+        Item {
             anchors.topMargin: 5
             anchors.top: ti1.bottom
             anchors.right: parent.right
@@ -48,6 +48,7 @@ Window {
             anchors.rightMargin: 5
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 5
+            clip: true
 
             ListView {
                 id: listView1
@@ -90,7 +91,7 @@ Window {
                         }
                     }
                 }
-                model: CurrencyDataModel {
+                model: CurrencyFilterModel {
                     id: dataModel
 
                     Component.onCompleted: dataModel.refresh()

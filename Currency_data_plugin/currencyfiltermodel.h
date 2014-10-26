@@ -1,0 +1,29 @@
+#ifndef CURRENCYFILTERMODEL_H
+#define CURRENCYFILTERMODEL_H
+
+#include <QSortFilterProxyModel>
+class CurrencyDataModel;
+
+class CurrencyFilterModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+public:
+    explicit CurrencyFilterModel(QObject *parent = 0);
+    Q_INVOKABLE void stringChanged(const QString &p_str);
+    Q_INVOKABLE void refresh();
+
+protected:
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+//    bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+
+private:
+    CurrencyDataModel *model_impl() {
+        return reinterpret_cast<CurrencyDataModel*> (this->sourceModel());
+    }
+
+
+
+
+};
+
+#endif // CURRENCYFILTERMODEL_H

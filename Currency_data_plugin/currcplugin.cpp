@@ -41,6 +41,7 @@
 //![0]
 #include "CurrencyDataSet.h"
 #include "CurrencyData.h"
+#include "currencyfiltermodel.h"
 #include "model.h"
 #include <qqml.h>
 
@@ -49,4 +50,5 @@ void ChartsPlugin::registerTypes(const char *uri)
    // @uri CurrcData
     qmlRegisterType<CurrencyData>(uri, 1, 0, "CurrencyData");
     qmlRegisterType<CurrencyDataModel>(uri, 1, 0, "CurrencyDataModel");
+    qmlRegisterType<CurrencyFilterModel>(uri, 1, 0, "CurrencyFilterModel");
 }

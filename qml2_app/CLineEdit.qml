@@ -4,7 +4,8 @@ Rectangle {
     property alias font: input.font
     property string text: ""
     property alias selectByMouse: input.selectByMouse
-    signal textChanged_le(string text)
+    signal enterPressed(string text)
+    signal le_textChanged(string text)
 
     id: lineEdit
     height: input.height + 6
@@ -21,6 +22,8 @@ Rectangle {
         color: "white"
         verticalAlignment: Text.AlignVCenter
         text: lineEdit.text
+        antialiasing: true
+        onTextChanged: lineEdit.le_textChanged(text)
     }
 
     MouseArea {
@@ -41,11 +44,11 @@ Rectangle {
     ]
 
     Keys.onReturnPressed: {
-        lineEdit.textChanged_le(input.text)
+        lineEdit.enterPressed(input.text)
         lineEdit.focus = true
     }
     Keys.onEnterPressed: {
-        lineEdit.textChanged_le(input.text)
+        lineEdit.enterPressed(input.text)
         lineEdit.focus = true
     }
     Keys.onEscapePressed: {

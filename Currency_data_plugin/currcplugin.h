@@ -40,7 +40,6 @@
 #ifndef CHARTSPLUGIN_H
 #define CHARTSPLUGIN_H
 
-//![0]
 #include <QQmlExtensionPlugin>
 
 class ChartsPlugin : public QQmlExtensionPlugin
@@ -51,7 +50,5 @@ class ChartsPlugin : public QQmlExtensionPlugin
 public:
     void registerTypes(const char *uri);
 };
-//![0]
-
 #endif
 
