@@ -4,8 +4,10 @@ Rectangle {
     property alias font: input.font
     property string text: ""
     property alias selectByMouse: input.selectByMouse
+    property alias waitInput: input.cursorVisible
     signal enterPressed(string text)
     signal le_textChanged(string text)
+    signal clicked()
 
     id: lineEdit
     height: input.height + 6
@@ -28,7 +30,10 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
-        onClicked: input.focus = true
+        onClicked:  {
+            input.focus = true
+            lineEdit.clicked()
+        }
     }
 
     states: [

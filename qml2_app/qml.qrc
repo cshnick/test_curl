@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>TestComponent.qml</file>
+        <file>CListView.qml</file>
         <file>main_abstrmdl.qml</file>
         <file>CLineEdit.qml</file>
     </qresource>
