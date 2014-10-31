@@ -5,6 +5,7 @@ Rectangle {
     property string text: ""
     property alias selectByMouse: input.selectByMouse
     property alias waitInput: input.cursorVisible
+
     signal enterPressed(string text)
     signal le_textChanged(string text)
     signal clicked()
@@ -33,6 +34,9 @@ Rectangle {
         onClicked:  {
             input.focus = true
             lineEdit.clicked()
+            input.cursorVisible = true
+            console.log("Mouse area clicked")
+            console.log("Input focus" + input.focus)
         }
     }
 
@@ -43,8 +47,9 @@ Rectangle {
             PropertyChanges { target: input; color: "black" }
         },
         State {
-            when: text == ""
-            PropertyChanges { target: lineEdit; border.color: "grey" }
+            when: !input.cursorVisible
+//            PropertyChanges { target: lineEdit; border.color: "#FFFFFF" }
+
         }
     ]
 

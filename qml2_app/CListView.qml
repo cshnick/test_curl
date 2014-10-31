@@ -4,16 +4,18 @@ import CurrcData 1.0
 Item {
     property CurrencyFilterModel dtaModel: dataModel
 
+
     id: listView_main
 
     ListView {
         id: listView1
-        //            anchors.topMargin: 5
+
+        clip: true
         anchors.fill: parent
+        highlightMoveDuration: 0
         delegate: Item {
             id: delegate
-            x: 5
-            width: parent.width - 3
+            width: parent.width
             height: 40
 
             Row {
@@ -34,14 +36,13 @@ Item {
                 }
 
                 Column {
+                    anchors.verticalCenter: parent.verticalCenter
                     spacing: 2
                     Text {
-                        y: 2
                         text: name
                         font.bold: true
                     }
                     Text {
-                        y: 2
                         text: value
                         font.bold: false
                     }
@@ -62,7 +63,6 @@ Item {
         }
         highlight: Rectangle  {
             color:"black"
-            x: 3
             radius: 3
             opacity: 0.5
             focus: true

@@ -15,6 +15,15 @@ Window {
         anchors.topMargin: 5
         state: "NORMAL"
 
+//        Component {
+//            id: rootCurrencyDelegate
+
+//            Rectangle {
+//                id: picture
+//                color:
+//            }
+//        }
+
 
         CLineEdit {
             id: ti1
@@ -30,7 +39,6 @@ Window {
             font.pixelSize: 12
             onLe_textChanged: listView.dtaModel.stringChanged(text)
             waitInput: false
-
         }
 
         CListView {
@@ -45,7 +53,7 @@ Window {
             anchors.bottomMargin: 5
             clip: true
 
-            visible: false
+            visible: true
         }
         states: [
             State {
@@ -55,7 +63,7 @@ Window {
             },
             State {
                 name: "NORMAL"
-                PropertyChanges { target: listView; visible: false}
+                PropertyChanges { target: listView; visible: true}
             }
         ]
     }
