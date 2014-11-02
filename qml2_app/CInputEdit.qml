@@ -6,6 +6,7 @@ Rectangle {
     signal clicked()
     signal editFinished(string str)
     signal editCanceled(string str)
+    signal focusChanged()
 
     property alias text: input.text
     property alias font: input.font
@@ -13,6 +14,7 @@ Rectangle {
     property alias verticalAlignment: input.verticalAlignment
     property alias horisontalAlignment: input.horizontalAlignment
     property color textColor
+    property alias textFocus: input.focus
 
     width: 100
     height: 62
@@ -21,6 +23,10 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 7
         verticalAlignment: TextInput.AlignVCenter
+
+        onFocusChanged: {
+            console.log("input edit focus changed")
+        }
 
         color: "white"
     }
@@ -35,7 +41,6 @@ Rectangle {
             if (!input.activeFocus) {
                 enabled = false
                 input.forceActiveFocus()
-//                input.cursorVisible = true
             }
         }
     }
