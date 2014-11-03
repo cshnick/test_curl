@@ -3,9 +3,11 @@ import CurrcData 1.0
 
 Item {
     property CurrencyFilterModel dtaModel: dataModel
+    property alias lstView: listView1
 
 
     id: listView_main
+    signal clicked(int l_index)
 
     ListView {
         id: listView1
@@ -53,7 +55,10 @@ Item {
                 z: 1
                 hoverEnabled: false
                 anchors.fill: parent
-                onClicked:  {listView1.currentIndex = index }
+                onClicked:  {
+                    listView1.currentIndex = index
+                    listView_main.clicked(index)
+                }
             }
         }
         model: CurrencyFilterModel {

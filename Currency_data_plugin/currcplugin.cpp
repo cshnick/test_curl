@@ -42,8 +42,18 @@
 #include "CurrencyDataSet.h"
 #include "CurrencyData.h"
 #include "currencyfiltermodel.h"
+#include "settings.h"
 #include "model.h"
 #include <qqml.h>
+
+static QObject *settings_singleton_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    Settings *settings = new Settings();
+    return settings;
+}
 
 void ChartsPlugin::registerTypes(const char *uri)
 {
@@ -51,4 +61,5 @@ void ChartsPlugin::registerTypes(const char *uri)
     qmlRegisterType<CurrencyData>(uri, 1, 0, "CurrencyData");
     qmlRegisterType<CurrencyDataModel>(uri, 1, 0, "CurrencyDataModel");
     qmlRegisterType<CurrencyFilterModel>(uri, 1, 0, "CurrencyFilterModel");
+    qmlRegisterSingletonType<Settings>(uri, 1, 0, "Settings", settings_singleton_provider);
 }
