@@ -2,6 +2,7 @@
 
 #include "model.h"
 #include <QDebug>
+#include "CurrencyData.h"
 
 CurrencyFilterModel::CurrencyFilterModel(QObject *parent) :
     QSortFilterProxyModel(parent)
@@ -31,9 +32,12 @@ bool CurrencyFilterModel::filterAcceptsRow(int source_row, const QModelIndex &so
 
 void CurrencyFilterModel::stringChanged(const QString &p_str)
 {
-    qDebug() << "Here is changed string:" << p_str;
-//    setFilterRegExp(QRegExp(p_str));
     setFilterFixedString(p_str);
+}
+
+CurrencyData *CurrencyFilterModel::get(int p_index)
+{
+    return sourceModel()->data(mapToSource(index(p_index, 0)), CurrencyDataModel::DataRole).value<CurrencyData*>();
 }
 
 void CurrencyFilterModel::refresh()

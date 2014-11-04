@@ -5,7 +5,6 @@ Item {
     property CurrencyFilterModel dtaModel: dataModel
     property alias lstView: listView1
 
-
     id: listView_main
     signal clicked(int l_index)
 
@@ -14,7 +13,7 @@ Item {
 
         clip: true
         anchors.fill: parent
-        highlightMoveDuration: 0
+        highlightMoveDuration: 75
         delegate: Item {
             id: delegate
             width: parent.width

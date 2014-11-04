@@ -78,6 +78,7 @@ private:
     QColor m_color;
     QString m_altcolor;
 };
+Q_DECLARE_METATYPE(CurrencyData*)
 
 class A : public QObject
 {

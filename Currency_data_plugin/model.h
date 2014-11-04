@@ -15,6 +15,7 @@ public:
         ColorNameRole,
         ValueRole,
         NameRole,
+        DataRole,
     };
 
     CurrencyDataModel(QObject *parent = 0);
@@ -25,6 +26,7 @@ public:
 
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
     Q_INVOKABLE void refresh();
+    Q_INVOKABLE CurrencyData* get(int p_index);
 
 protected:
     QHash<int, QByteArray> roleNames() const;

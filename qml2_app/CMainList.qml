@@ -14,7 +14,7 @@ Window {
             width: parent.width
             height: list_view.height / 2
             z: 0
-            property int animation_duration: 350
+            property int animation_duration: 150
 
             Rectangle {
                 id: image
@@ -65,17 +65,28 @@ Window {
                 width: parent.width
                 height: parent.height - inputEdit.height
 
+                function elemFromParams(item) {
+                    console.log("elemFromParams-> name: ", item.color_val)
+                    return ({"name":item.name,
+                                "code":item.code,
+                                "color_val":item.color_valcolor_val
+                                })
+                }
+
                 onClicked: {
-                    console.log("new index is: " + l_index)
+                    Settings.setValue("main/index1", l_index)
+
+                    var curItem = lstView.model.get(lstView.currentIndex)
+
+                    console.log("current color: " + curItem.name)
+//                    list_view.model.set(list_view.currentIndex, elemFromParams(curItem))
+
+                    root_item.state = ""
                 }
 
                 lstView.currentIndex: m_index
                 opacity: 0
 
-                Component.onCompleted: {
-                    lstView.currentIndex = 22
-                    lstView.positionViewAtIndex(22, ListView.Beginning)
-                }
             }
 
             CInputEdit {
@@ -92,6 +103,9 @@ Window {
                 font.bold: true
                 selectByMouse: true
                 horisontalAlignment: Text.AlignRight
+                onInputTextChanged: if (cur_list.opacity > 0) {
+                                        cur_list.dtaModel.stringChanged(text)
+                                    }
             }
 
             MouseArea {
@@ -105,18 +119,10 @@ Window {
                 onClicked: {
                     inputEdit.focus = true
                     root_item.state = "CHOOSE"
-                    Settings.setValue("name/index1", 22)
-                    var index1 = Settings.value("name/index1", 22)
-                    console.log("read from settings 1: " + index1)
+                    var index1 = Settings.value("main/index1", 22)
                     cur_list.lstView.currentIndex = index1
                     cur_list.lstView.positionViewAtIndex(index1, ListView.Beginning)
-                    console.log("cur_list current index: " + cur_list.lstView.currentIndex)
                 }
-            }
-
-            Component.onCompleted: {
-                console.log("delegate completed\ncolor " + color_val)
-                console.log("list view height " + root_delegate.ListView.height)
             }
 
             states: [

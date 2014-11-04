@@ -4,7 +4,7 @@
 Settings::Settings(QObject *parent)
     : QSettings(QSettings::IniFormat,
                 QSettings::UserScope,
-                QCoreApplication::instance()->organizationName(),
+                "Cshnick",
                 QCoreApplication::instance()->applicationName(),
                 parent)
 {

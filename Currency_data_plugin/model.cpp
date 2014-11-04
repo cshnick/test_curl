@@ -114,6 +114,8 @@ QVariant CurrencyDataModel::data(const QModelIndex & index, int role) const {
     case ValueRole:
         return csdta.value();
         break;
+    case DataRole:
+        return QVariant::fromValue(m_currencies.at(index.row()));
     default:
         return QVariant();
     }
@@ -169,4 +171,9 @@ void CurrencyDataModel::refresh()
     fillModel();
     qDebug() << "retreived data, elapsed time" << cur.msecsTo(QTime::currentTime());
     qDebug() << "new count" << m_currencies.count();
+}
+
+CurrencyData *CurrencyDataModel::get(int p_index)
+{
+    return m_currencies[p_index];
 }

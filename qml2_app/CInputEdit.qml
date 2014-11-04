@@ -7,6 +7,7 @@ Rectangle {
     signal editFinished(string str)
     signal editCanceled(string str)
     signal focusChanged()
+    signal inputTextChanged(string text)
 
     property alias text: input.text
     property alias font: input.font
@@ -27,6 +28,7 @@ Rectangle {
         onFocusChanged: {
             console.log("input edit focus changed")
         }
+        onTextChanged: input_edit.inputTextChanged(text)
 
         color: "white"
     }

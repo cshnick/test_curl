@@ -15,16 +15,6 @@ Window {
         anchors.topMargin: 5
         state: "NORMAL"
 
-//        Component {
-//            id: rootCurrencyDelegate
-
-//            Rectangle {
-//                id: picture
-//                color:
-//            }
-//        }
-
-
         CLineEdit {
             id: ti1
             height: 25

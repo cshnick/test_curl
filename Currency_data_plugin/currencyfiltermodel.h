@@ -3,6 +3,7 @@
 
 #include <QSortFilterProxyModel>
 class CurrencyDataModel;
+class CurrencyData;
 
 class CurrencyFilterModel : public QSortFilterProxyModel
 {
@@ -10,6 +11,7 @@ class CurrencyFilterModel : public QSortFilterProxyModel
 public:
     explicit CurrencyFilterModel(QObject *parent = 0);
     Q_INVOKABLE void stringChanged(const QString &p_str);
+    Q_INVOKABLE CurrencyData* get(int p_index);
     Q_INVOKABLE void refresh();
 
 protected:
