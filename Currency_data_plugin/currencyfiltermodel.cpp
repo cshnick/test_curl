@@ -35,9 +35,14 @@ void CurrencyFilterModel::stringChanged(const QString &p_str)
     setFilterFixedString(p_str);
 }
 
-CurrencyData *CurrencyFilterModel::get(int p_index)
+QVariant CurrencyFilterModel::get(int p_index, int role)
 {
-    return sourceModel()->data(mapToSource(index(p_index, 0)), CurrencyDataModel::DataRole).value<CurrencyData*>();
+    qDebug() << "Requesting role";
+    return sourceModel()->data(mapToSource(index(p_index, 0)), role);
+}
+QString CurrencyFilterModel::get_name(int p_index)
+{
+    return sourceModel()->data(mapToSource(index(p_index, 0)), CurrencyDataModel::NameRole).toString();
 }
 
 void CurrencyFilterModel::refresh()

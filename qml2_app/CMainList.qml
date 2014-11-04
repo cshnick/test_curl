@@ -65,24 +65,24 @@ Window {
                 width: parent.width
                 height: parent.height - inputEdit.height
 
-                function elemFromParams(item) {
-                    console.log("elemFromParams-> name: ", item.color_val)
-                    return ({"name":item.name,
-                                "code":item.code,
-                                "color_val":item.color_valcolor_val
-                                })
+                function elemFromParams(model, index) {
+                    console.log("elemFromParams-> : ", model.get(index, CurrencyDataModel.ColorNameRole))
+                    return ({"name":model.get(index, CurrencyDataModel.NameRole),
+                                "code":model.get(index, CurrencyDataModel.CodeRole),
+                                "color_val":model.get(index, CurrencyDataModel.ColorNameRole)
+                            })
                 }
 
                 onClicked: {
                     Settings.setValue("main/index1", l_index)
-
-                    var curItem = lstView.model.get(lstView.currentIndex)
-
-                    console.log("current color: " + curItem.name)
-//                    list_view.model.set(list_view.currentIndex, elemFromParams(curItem))
-
                     root_item.state = ""
+
+                    var root_model = root_item.ListView.view.model
+                    var root_index = root_item.ListView.view.currentIndex
+                    var replace_list_element = elemFromParams(lstView.model, lstView.currentIndex)
+                    root_model.set(root_index, replace_list_element)
                 }
+
 
                 lstView.currentIndex: m_index
                 opacity: 0

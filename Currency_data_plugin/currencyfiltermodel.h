@@ -11,7 +11,8 @@ class CurrencyFilterModel : public QSortFilterProxyModel
 public:
     explicit CurrencyFilterModel(QObject *parent = 0);
     Q_INVOKABLE void stringChanged(const QString &p_str);
-    Q_INVOKABLE CurrencyData* get(int p_index);
+    Q_INVOKABLE QVariant get(int p_index, int role);
+    Q_INVOKABLE QString get_name(int p_index);
     Q_INVOKABLE void refresh();
 
 protected:

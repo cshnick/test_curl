@@ -58,7 +58,7 @@ static QObject *settings_singleton_provider(QQmlEngine *engine, QJSEngine *scrip
 void ChartsPlugin::registerTypes(const char *uri)
 {
    // @uri CurrcData
-    qmlRegisterType<CurrencyData>(uri, 1, 0, "CurrencyData");
+//    qmlRegisterType<CurrencyData>(uri, 1, 0, "CurrencyData");
     qmlRegisterType<CurrencyDataModel>(uri, 1, 0, "CurrencyDataModel");
     qmlRegisterType<CurrencyFilterModel>(uri, 1, 0, "CurrencyFilterModel");
     qmlRegisterSingletonType<Settings>(uri, 1, 0, "Settings", settings_singleton_provider);

@@ -11,6 +11,11 @@ public:
     explicit Settings(QObject *parent = 0);
     ~Settings();
 
+    enum SEnum {
+        ENUM1 = 50,
+        ENUM2
+    };
+
     Q_INVOKABLE void setValue(const QString &key, const QVariant &value);
     Q_INVOKABLE QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;
 };
