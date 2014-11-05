@@ -12,7 +12,7 @@ Window {
         Item {
             id: root_item
             width: parent.width
-            height: list_view.height / 2
+            height: root_list.height / 2
             z: 0
             property int animation_duration: 150
 
@@ -85,8 +85,8 @@ Window {
 
 
                 lstView.currentIndex: m_index
+                z: 1
                 opacity: 0
-
             }
 
             CInputEdit {
@@ -94,7 +94,7 @@ Window {
 
                 anchors.bottom: root_item.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: list_view.width
+                width: root_list.width
                 height: 40
                 color: "#2E6496"
                 textColor: "#2E6496"
@@ -103,9 +103,21 @@ Window {
                 font.bold: true
                 selectByMouse: true
                 horisontalAlignment: Text.AlignRight
-                onInputTextChanged: if (cur_list.opacity > 0) {
-                                        cur_list.dtaModel.stringChanged(text)
-                                    }
+            }
+
+            CInputEdit {
+                id: search_input
+
+                y: -height
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: root_list.width
+                height: 30
+                font.pixelSize: 16
+                font.bold: true
+                onInputTextChanged: cur_list.dtaModel.stringChanged(text)
+
+                opacity: 0.1
+                z: 1
             }
 
             MouseArea {
@@ -122,31 +134,33 @@ Window {
                     var index1 = Settings.value("main/index1", 22)
                     cur_list.lstView.currentIndex = index1
                     cur_list.lstView.positionViewAtIndex(index1, ListView.Beginning)
+                    search_input.forceTextFocus()
                 }
             }
 
             states: [
                 State {
                     name: "CHOOSE"
-                    AnchorChanges {target: inputEdit; anchors.top: parent.top; anchors.bottom: undefined}
-                    //                        PropertyChanges {target: inputEdit; y: 0}
-                    //                        PropertyChanges {target: inputEdit;  x: 0; y: 5}
-                    PropertyChanges {target: name_text; opacity: 0}
-                    PropertyChanges {target: image; opacity: 0}
-                    PropertyChanges {target: cur_list; opacity: 1; y: inputEdit.height}
-//                    PropertyChanges {target: root_item; height: list_view.height }
-                    PropertyChanges {target: list_view; interactive: false}
+                    AnchorChanges {target: image; anchors.right: parent.left}
+                    AnchorChanges {target: name_text; anchors.left: parent.right}
+                    PropertyChanges {target: search_input; opacity: 1}
+                    PropertyChanges {target: search_input; y: root_item.y}
+                    PropertyChanges {target: search_input; textFocus: true}
+                    PropertyChanges {target: cur_list; opacity: 1; y: search_input.height}
+                    PropertyChanges {target: root_list; interactive: false}
+                    PropertyChanges {target: root_item; explicit: true; height: root_list.height}
                 }
             ]
             transitions: [
                 Transition {
                     ParallelAnimation {
                         NumberAnimation {properties: "opacity"; duration: root_item.animation_duration}
-                        PropertyAction {target: root_item; property: "height"; value: list_view.height}
-                        PropertyAction {target: cur_list; property: "opacity"; value: 0.5}
+                        NumberAnimation { targets: [search_input]; properties: "opacity,y"; duration: root_item.animation_duration }
+                        PropertyAction {target: inputEdit; property: "opacity"; value: 0}
+//                        PropertyAction {target: root_item; property: "height"; value: root_list.height}
+                        PropertyAction {target: cur_list; property: "opacity"; value: 1}
                         AnchorAnimation {duration: root_item.animation_duration}
-                        NumberAnimation {target: cur_list; properties: "y"; duration: root_item.animation_duration}
-                        //                            NumberAnimation {target: root_item; property: height; duration: 1500}
+                        SpringAnimation {target: cur_list; properties: "y"; duration: root_item.animation_duration; spring: 5; damping: 0.3}
                     }
                 }
             ]
@@ -154,7 +168,7 @@ Window {
     }
 
     ListView {
-        id: list_view
+        id: root_list
 
         anchors.fill: parent
         model: root_model

@@ -17,6 +17,10 @@ Rectangle {
     property color textColor
     property alias textFocus: input.focus
 
+    function forceTextFocus() {
+        input.forceActiveFocus()
+    }
+
     width: 100
     height: 62
     TextInput {
@@ -51,6 +55,7 @@ Rectangle {
         State {
             when: input.cursorVisible
             PropertyChanges { target: input_edit; color: "white" }
+            PropertyChanges { target: input_edit; border.color: "grey"}
             PropertyChanges { target: input; color: textColor }
         }
     ]
@@ -71,7 +76,7 @@ Rectangle {
         tiMouseArea.enabled = true
     }
 
-    border.color: "grey"
+    border.color: "#2E6496"
     color: "#2E6496"
     Component.onCompleted: {
         tiMouseArea.clicked.connect(clicked)
