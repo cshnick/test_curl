@@ -16,6 +16,7 @@ Rectangle {
     property alias horisontalAlignment: input.horizontalAlignment
     property color textColor
     property alias textFocus: input.focus
+    property alias validator: input.validator
 
     function forceTextFocus() {
         input.forceActiveFocus()

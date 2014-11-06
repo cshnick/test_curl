@@ -70,10 +70,11 @@ Window {
                     height: parent.height
 
                     function elemFromParams(index, model) {
-                        console.log("elemFromParams-> : ", model.get(index, CurrencyDataModel.ColorNameRole))
-                        return ({"name":model.get(index, CurrencyDataModel.NameRole),
-                                    "code":model.get(index, CurrencyDataModel.CodeRole),
-                                    "color_val":model.get(index, CurrencyDataModel.ColorNameRole)
+                        console.log("elemFromParams-> : ", model.get(index, EnumProvider.ColorNameRole))
+                        return ({"name":model.get(index, EnumProvider.NameRole),
+                                    "code":model.get(index, EnumProvider.CodeRole),
+                                    "color_val":model.get(index, EnumProvider.ColorNameRole),
+                                    "value":model.get(index, EnumProvider.ValueRole)
                                 })
                     }
 
@@ -114,7 +115,6 @@ Window {
                     selectByMouse: true
                     horisontalAlignment: Text.AlignRight
                     onTextChanged: {
-                        console.log("new text: " + text)
                         var otherIndex = index ? 0 : 1
                         calculate(root_model.get(index).value, root_model.get(otherIndex).value)
                     }

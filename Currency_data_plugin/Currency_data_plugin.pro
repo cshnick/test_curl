@@ -12,7 +12,8 @@ HEADERS += \
     currcplugin.h \
     model.h \
     currencyfiltermodel.h \
-    settings.h
+    settings.h \
+    EnumProvider.h
 
 SOURCES += \
     CurrencyData.cpp \

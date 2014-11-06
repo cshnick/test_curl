@@ -42,6 +42,19 @@
 
 #include <QQmlExtensionPlugin>
 
+class QObject;
+class QJSEngine;
+
+template <class T>
+QObject *singleton_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+
+    T* obj = new T;
+    return obj;
+}
+
 class ChartsPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT

@@ -1,8 +1,8 @@
 #include "model.h"
 #include "CurrencyData.h"
 #include "../Loader/src/loader.h"
-
 #include "unistd.h"
+#include "EnumProvider.h"
 
 static QColor genColor() {
     int r = qrand() % 0xFF;
@@ -102,19 +102,19 @@ QVariant CurrencyDataModel::data(const QModelIndex & index, int role) const {
 
     CurrencyData *csdta = m_currencies.at(index.row());
     switch (role) {
-    case NameRole:
+    case EnumProvider::NameRole:
         return csdta->name();
         break;
-    case CodeRole:
+    case EnumProvider::CodeRole:
         return csdta->code();
         break;
-    case ColorNameRole:
+    case EnumProvider::ColorNameRole:
         return csdta->alt_color();
         break;
-    case ValueRole:
+    case EnumProvider::ValueRole:
         return csdta->value();
         break;
-    case DataRole:
+    case EnumProvider::DataRole:
         return QVariant::fromValue(csdta);
     default:
         return QVariant();
@@ -123,10 +123,10 @@ QVariant CurrencyDataModel::data(const QModelIndex & index, int role) const {
 
 QHash<int, QByteArray> CurrencyDataModel::roleNames() const {
     QHash<int, QByteArray> roles;
-    roles[CodeRole] = "code";
-    roles[ColorNameRole] = "colorCode";
-    roles[ValueRole] = "value";
-    roles[NameRole] = "name";
+    roles[EnumProvider::CodeRole] = "code";
+    roles[EnumProvider::ColorNameRole] = "colorCode";
+    roles[EnumProvider::ValueRole] = "value";
+    roles[EnumProvider::NameRole] = "name";
     return roles;
 }
 

@@ -3,6 +3,7 @@
 #include "model.h"
 #include <QDebug>
 #include "CurrencyData.h"
+#include "EnumProvider.h"
 
 CurrencyFilterModel::CurrencyFilterModel(QObject *parent) :
     QSortFilterProxyModel(parent)
@@ -15,8 +16,8 @@ bool CurrencyFilterModel::filterAcceptsRow(int source_row, const QModelIndex &so
 {
     const QModelIndex ind = sourceModel()->index(source_row, 0, source_parent);
 
-    QString name_data = ind.data(CurrencyDataModel::NameRole).toString();
-    QString code_data = ind.data(CurrencyDataModel::CodeRole).toString();
+    QString name_data = ind.data(EnumProvider::NameRole).toString();
+    QString code_data = ind.data(EnumProvider::CodeRole).toString();
 
     bool accept = name_data.contains(filterRegExp())
             || code_data.contains(filterRegExp());
@@ -42,7 +43,7 @@ QVariant CurrencyFilterModel::get(int p_index, int role)
 }
 QString CurrencyFilterModel::get_name(int p_index)
 {
-    return sourceModel()->data(mapToSource(index(p_index, 0)), CurrencyDataModel::NameRole).toString();
+    return sourceModel()->data(mapToSource(index(p_index, 0)), EnumProvider::NameRole).toString();
 }
 
 void CurrencyFilterModel::refresh()

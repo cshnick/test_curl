@@ -10,15 +10,6 @@ class CurrencyDataModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    enum CurrencyDataRoles {
-        CodeRole = Qt::UserRole + 1,
-        ColorNameRole,
-        ValueRole,
-        NameRole,
-        DataRole,
-    };
-    Q_ENUMS(CurrencyDataRoles)
-
     CurrencyDataModel(QObject *parent = 0);
 
     void append(CurrencyData *data);

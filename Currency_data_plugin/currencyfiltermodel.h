@@ -2,6 +2,7 @@
 #define CURRENCYFILTERMODEL_H
 
 #include <QSortFilterProxyModel>
+
 class CurrencyDataModel;
 class CurrencyData;
 
