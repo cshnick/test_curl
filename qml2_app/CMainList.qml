@@ -18,7 +18,7 @@ Window {
                 width: parent.width
                 height: root_list.height / 2
                 z: 0
-                property int animation_duration: 1500
+                property int animation_duration: 150
 
                 Rectangle {
                     id: image
@@ -69,6 +69,16 @@ Window {
                     width: parent.width
                     height: parent.height
 
+                    function process_index(pl_index) {
+                        Settings.setValue("main/index" + index, pl_index)
+                        root_item.state = ""
+
+                        var root_model = root_item.ListView.view.model
+                        var root_index = root_item.ListView.view.currentIndex
+                        var replace_list_element = elemFromParams(lstView.currentIndex, lstView.model)
+                        root_model.set(index, replace_list_element)
+                    }
+
                     function elemFromParams(index, model) {
                         console.log("elemFromParams-> : ", model.get(index, EnumProvider.ColorNameRole))
                         return ({"name":model.get(index, EnumProvider.NameRole),
@@ -79,13 +89,7 @@ Window {
                     }
 
                     onClicked: {
-                        Settings.setValue("main/index" + index, l_index)
-                        root_item.state = ""
-
-                        var root_model = root_item.ListView.view.model
-                        var root_index = root_item.ListView.view.currentIndex
-                        var replace_list_element = elemFromParams(lstView.currentIndex, lstView.model)
-                        root_model.set(index, replace_list_element)
+                        process_index(l_index)
                     }
 
 
@@ -97,14 +101,11 @@ Window {
                     id: valueEdit
 
                     function calculate(val1, val2) {
-                        console.log("val1: " + val1 + "; val2: " + val2 + "; text: " + text)
                         var result = val2 * text / val1
-                         console.log("result is " + result)
                         return result
                     }
 
                     anchors.bottom: root_item.bottom
-                    //                anchors.horizontalCenter: parent.horizontalCenter
                     width: root_list.width
                     height: 40
                     color: "#2E6496"
@@ -115,8 +116,12 @@ Window {
                     selectByMouse: true
                     horisontalAlignment: Text.AlignRight
                     onTextChanged: {
+                        /// Detect index for opposite item
                         var otherIndex = index ? 0 : 1
-                        calculate(root_model.get(index).value, root_model.get(otherIndex).value)
+                        var result = calculate(root_model.get(index).value, root_model.get(otherIndex).value)
+                        if (textFocus) { //Disable recursive onTextChanged calls
+                            root_model.setProperty(otherIndex, "count", result)
+                        }
                     }
                 }
 
@@ -132,6 +137,17 @@ Window {
                     font.bold: false
                     onInputTextChanged: cur_list.dtaModel.stringChanged(text)
 
+                    Keys.onUpPressed: {
+                        cur_list.lstView.decrementCurrentIndex()
+                    }
+                    Keys.onDownPressed: {
+                        cur_list.lstView.incrementCurrentIndex()
+                    }
+                    Keys.onReturnPressed: {
+                        console.log("return pressed")
+                        cur_list.process_index(cur_list.lstView.currentIndex)
+                    }
+
                     opacity: 0
                     visible: false
                     z: 1
@@ -146,7 +162,6 @@ Window {
                     height: parent.height - valueEdit.height
                     z: 1
                     onClicked: {
-                        console.log("mouse area clicked")
                         valueEdit.focus = true
                         root_item.state = "CHOOSE"
                         var index1 = Settings.value("main/index1", 22)
