@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import CurrcData 1.0
 import QtQuick.Window 2.0
+import "MainListHelper.js" as JSHelper
 
 Window {
     width: 280
@@ -100,8 +101,23 @@ Window {
                 CInputEdit {
                     id: valueEdit
 
+
+                    function to_formatted(arg) {
+                        var result = NaN
+                        if (arg !== NaN) {
+                            result = arg.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ')
+                        }
+
+                        return result
+                    }
+
+                    function from_formatted(arg) {
+                        arg = arg.toString()
+                        return parseFloat(arg.replace(/\s/g,''))
+                    }
+
                     function calculate(val1, val2) {
-                        var result = val2 * text / val1
+                        var result = val2 * from_formatted(text) / val1
                         return result
                     }
 
@@ -118,9 +134,14 @@ Window {
                     onTextChanged: {
                         /// Detect index for opposite item
                         var otherIndex = index ? 0 : 1
-                        var result = calculate(root_model.get(index).value, root_model.get(otherIndex).value)
+                        var num = parseFloat(text.replace(/\s/g,''))
+
                         if (textFocus) { //Disable recursive onTextChanged calls
+                            var val1 = root_model.get(index).value
+                            var val2 = root_model.get(otherIndex).value
+                            var result = to_formatted(calculate(val1, val2))
                             root_model.setProperty(otherIndex, "count", result)
+                            console.log("Original num: " + num + "; Formatted number: " + num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& '))
                         }
                     }
                 }
@@ -219,7 +240,7 @@ Window {
                 name: "Belarus Ruble"
                 code: "BYR"
                 value: 13622.697606962
-                count: 1
+                count: "1"
                 color_val: "#63BBEA"
                 m_index: 22
             }
