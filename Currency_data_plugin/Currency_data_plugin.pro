@@ -26,7 +26,8 @@ SOURCES += \
 LIBS += -L$${OUT_PWD}/../bin/CurrcData -lurlLoader
 message("looking for a bin"$${OUT_PWD}/../bin)
 
-OTHER_FILES += qmldir
+OTHER_FILES += qmldir \
+    ../Additional/colors.dat
 
  #do the rpath by hand since it's not possible to use ORIGIN in QMAKE_RPATHDIR
 # this expands to $ORIGIN (after qmake and make), it does NOT read a qmake var
@@ -40,3 +41,4 @@ QMAKE_RPATHDIR =
 
 # Copy the qmldir file to the same folder as the plugin binary
 QMAKE_POST_LINK += $$QMAKE_COPY $$replace($$list($$quote($$PWD/qmldir) $$DESTDIR), /, $$QMAKE_DIR_SEP)
+QMAKE_POST_LINK += $$QMAKE_COPY $$replace($$list($$quote($$PWD/../Additional/colors.dat) $$DESTDIR), /, $$QMAKE_DIR_SEP)

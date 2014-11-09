@@ -38,7 +38,6 @@ void CurrencyFilterModel::stringChanged(const QString &p_str)
 
 QVariant CurrencyFilterModel::get(int p_index, int role)
 {
-    qDebug() << "Requesting role";
     return sourceModel()->data(mapToSource(index(p_index, 0)), role);
 }
 QString CurrencyFilterModel::get_name(int p_index)

@@ -18,11 +18,13 @@ QObject *filtermodel_Singleton_Provider(QQmlEngine *engine, QJSEngine *scriptEng
 
 void ChartsPlugin::registerTypes(const char *uri)
 {
+
    // @uri CurrcData
+    qmlRegisterType<EnumProvider>(uri, 1, 0, "EnumProvider");
     qmlRegisterType<CurrencyFilterModel>(uri, 1, 0, "CurrencyFilterModel");
 //    qmlRegisterSingletonType<Settings>(uri, 1, 0, "Settings", singleton_provider<Settings>);
 //    qmlRegisterSingletonType<CurrencyFilterModel>("CurrcData", 1, 0, "CurrencyFilterModel", filtermodel_Singleton_Provider);
 //    DEFAULT_REGISTER_SINGLETON(CurrencyFilterModel);
     DEFAULT_REGISTER_SINGLETON(Settings);
-    DEFAULT_REGISTER_SINGLETON(EnumProvider);
+//    DEFAULT_REGISTER_SINGLETON(EnumProvider);
 }

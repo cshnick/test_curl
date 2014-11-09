@@ -24,10 +24,6 @@ private:
     CurrencyDataModel *model_impl() {
         return reinterpret_cast<CurrencyDataModel*> (this->sourceModel());
     }
-
-
-
-
 };
 
 #endif // CURRENCYFILTERMODEL_H
