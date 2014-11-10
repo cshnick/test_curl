@@ -4,8 +4,12 @@ import QtQuick.Window 2.0
 import "MainListHelper.js" as JSHelper
 
 Window {
-    width: 280
-    height: 480
+    id: window
+
+    property int global_width: 270
+    property int global_height: 480
+    width: global_width
+    height: global_height
     visible: true
     Item {
         x: parent.x
@@ -125,11 +129,11 @@ Window {
 
                     anchors.bottom: root_item.bottom
                     width: root_list.width
-                    height: 40
+                    height: window.global_height * 0.083 //If we change resolution
                     color: "#2E6496"
                     textColor: "#2E6496"
                     text: count
-                    font.pixelSize: 20
+                    font.pixelSize: window.global_height * 0.083 / 2
                     font.bold: true
                     selectByMouse: true
                     horisontalAlignment: Text.AlignRight
@@ -154,8 +158,8 @@ Window {
                     y: -height
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: root_list.width
-                    height: 30
-                    font.pixelSize: 16
+                    height: global_height * 0.0625
+                    font.pixelSize: global_height * 0.0625 / 2
                     textColor: "#2E6496"
                     font.bold: false
                     onInputTextChanged: cur_list.dtaModel.stringChanged(text)

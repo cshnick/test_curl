@@ -4,7 +4,6 @@
         <file>main_abstrmdl.qml</file>
         <file>CMainList.qml</file>
         <file>CInputEdit.qml</file>
-        <file>TestElement.qml</file>
         <file>MainListHelper.js</file>
     </qresource>
 </RCC>
