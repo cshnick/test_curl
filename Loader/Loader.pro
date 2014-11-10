@@ -10,9 +10,15 @@ CONFIG += c++11
 QT += xml
 LIBS += -lcurl
 
-SOURCES += \
-    src/loader.cpp \
-    #src/main.cpp \
+#CONFIG += lib_curl
+
+lib_curl {
+    SOURCES += src/loader_curl.cpp
+} else {
+    HEADERS += src/loader_private_qt.h
+    SOURCES += src/loader_qt.cpp
+    QT += network
+}
 
 HEADERS += \
     src/loader.h \

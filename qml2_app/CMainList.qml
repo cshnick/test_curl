@@ -117,6 +117,8 @@ Window {
                     }
 
                     function calculate(val1, val2) {
+                        console.log("calculate result:")
+                        console.log("val1: " + val1 + "; val2: " + val2 + "; text" + text)
                         var result = val2 * from_formatted(text) / val1
                         return result
                     }

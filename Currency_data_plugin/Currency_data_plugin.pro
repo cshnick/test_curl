@@ -8,7 +8,6 @@ TARGET = $$qtLibraryTarget(currcdataplugin)
 
 HEADERS += \
     CurrencyData.h \
-    CurrencyDataSet.h \
     currcplugin.h \
     model.h \
     currencyfiltermodel.h \
@@ -17,7 +16,6 @@ HEADERS += \
 
 SOURCES += \
     CurrencyData.cpp \
-    CurrencyDataSet.cpp \
     currcplugin.cpp \
     model.cpp \
     currencyfiltermodel.cpp \
@@ -40,5 +38,5 @@ QMAKE_RPATHDIR =
 
 
 # Copy the qmldir file to the same folder as the plugin binary
-QMAKE_POST_LINK += $$QMAKE_COPY $$replace($$list($$quote($$PWD/qmldir) $$DESTDIR), /, $$QMAKE_DIR_SEP)
-QMAKE_POST_LINK += $$QMAKE_COPY $$replace($$list($$quote($$PWD/../Additional/colors.dat) $$DESTDIR), /, $$QMAKE_DIR_SEP)
+QMAKE_POST_LINK += $$QMAKE_COPY $$replace($$list($$quote($$PWD/qmldir) $$DESTDIR), /, $$QMAKE_DIR_SEP) \
+                    $$QMAKE_COPY $$replace($$list($$quote($$PWD/../Additional/colors.dat) $$DESTDIR), /, $$QMAKE_DIR_SEP)

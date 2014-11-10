@@ -1,5 +1,4 @@
 #include "model.h"
-#include "CurrencyData.h"
 #include "../Loader/src/loader.h"
 #include "unistd.h"
 #include "EnumProvider.h"
@@ -82,9 +81,10 @@ CurrencyDataModel::CurrencyDataModel(QObject *parent)
     , m_loader(new url::Loader)
 {
     qDebug() << "CurrencyDataModel constructor start";
+    connect(m_loader, SIGNAL(documentDownloaded(QDomDocument)), this, SLOT(onAsyncDownload(QDomDocument)));
 }
 
-void CurrencyDataModel::append(CurrencyData *data)
+void CurrencyDataModel::append(CurrencyData data)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_currencies << data;
@@ -100,22 +100,21 @@ QVariant CurrencyDataModel::data(const QModelIndex & index, int role) const {
     if (index.row() < 0 || index.row() >= m_currencies.count())
         return QVariant();
 
-    CurrencyData *csdta = m_currencies.at(index.row());
+    CurrencyData csdta = m_currencies.at(index.row());
     switch (role) {
     case EnumProvider::NameRole:
-        return csdta->name();
+        return csdta.name();
         break;
     case EnumProvider::CodeRole:
-        return csdta->code();
+        return csdta.code();
         break;
     case EnumProvider::ColorNameRole:
-        return csdta->alt_color();
+        return csdta.alt_color();
         break;
     case EnumProvider::ValueRole:
-        return csdta->value();
+        return csdta.value();
         break;
-    case EnumProvider::DataRole:
-        return QVariant::fromValue(csdta);
+
     default:
         return QVariant();
     }
@@ -130,6 +129,11 @@ QHash<int, QByteArray> CurrencyDataModel::roleNames() const {
     return roles;
 }
 
+void CurrencyDataModel::onAsyncDownload(const QDomDocument &doc)
+{
+    fillFromDom(doc);
+}
+
 void CurrencyDataModel::fillModel()
 {
     m_loader->setUrl(g_data_url);
@@ -138,22 +142,30 @@ void CurrencyDataModel::fillModel()
         qDebug() << "No data within DOM";
         return;
     }
+    fillFromDom(doc);
+}
+
+void CurrencyDataModel::fillFromDom(const QDomDocument &doc)
+{
+    if (doc.isNull()) {
+        return;
+    }
     for (QDomElement nx = doc.documentElement().firstChildElement(); !nx.isNull(); nx = nx.nextSiblingElement()) {
         if (nx.tagName() != "data") {
             continue;
         }
-        CurrencyData *cel = new CurrencyData;
+        CurrencyData cel;
         for (QDomElement sx = nx.firstChildElement(); !sx.isNull(); sx = sx.nextSiblingElement()) {
             if (sx.tagName() == "code") {
-                cel->setCode(sx.text());
+                cel.setCode(sx.text());
             } else if (sx.tagName() == "description") {
-                cel->setName(sx.text());
+                cel.setName(sx.text());
             } else if (sx.tagName() == "rate") {
-                cel->setValue(sx.text().toDouble());
+                cel.setValue(sx.text().toDouble());
             }
         }
         uint nextValue = g_color_stack.getValue();
-        cel->setAlt_color(QColor::fromRgba(nextValue).name());
+        cel.setAlt_color(QColor::fromRgba(nextValue).name());
         append(cel);
     }
 }
@@ -162,7 +174,6 @@ void CurrencyDataModel::refresh()
 {
     if (m_currencies.count()) {
         beginRemoveRows(QModelIndex(), 0, m_currencies.count() - 1);
-        qDeleteAll(m_currencies);
         m_currencies.clear();
         endRemoveRows();
     }

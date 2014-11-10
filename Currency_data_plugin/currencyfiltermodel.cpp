@@ -23,13 +23,8 @@ bool CurrencyFilterModel::filterAcceptsRow(int source_row, const QModelIndex &so
             || code_data.contains(filterRegExp());
 
     return accept;
-//    return true;
 }
 
-//bool CurrencyFilterModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
-//{
-//    return true;
-//}
 
 void CurrencyFilterModel::stringChanged(const QString &p_str)
 {

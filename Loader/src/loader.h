@@ -5,14 +5,13 @@
 #include <QString>
 #include <QtXml>
 
-#include "curl/curl.h"
-
 namespace url {
 class LoaderPrivate;
 
-class URLLOADER_EXPORT Loader
+class URLLOADER_EXPORT Loader : public QObject
 {
-	friend class LoaderPrivate;
+    Q_OBJECT
+
 public:
     Loader();
     Loader(const QString &p_url);
@@ -23,7 +22,10 @@ public:
 
     QDomDocument getDom();
 
+    Q_SIGNAL void documentDownloaded(const QDomDocument &p_doc);
+
 private:
+    friend class LoaderPrivate;
     LoaderPrivate *p;
 };
 

@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>CListView.qml</file>
         <file>main_abstrmdl.qml</file>
-        <file>CLineEdit.qml</file>
         <file>CMainList.qml</file>
         <file>CInputEdit.qml</file>
         <file>TestElement.qml</file>

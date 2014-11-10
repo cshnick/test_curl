@@ -1,6 +1,6 @@
 #include "loader.h"
 
-//#include "curl/curl.h"
+#include "curl/curl.h"
 
 namespace url {
 
@@ -24,7 +24,6 @@ int loader_main(int argc, const char**argv) {
 }
 
 class LoaderPrivate {
-	friend class Loader;
 public:
 	LoaderPrivate(Loader *p_q): q(p_q) {}
 
@@ -87,6 +86,7 @@ public:
 	}
 
 private:
+    friend class Loader;
 	Loader *q;
 
 	QString m_url;
@@ -134,4 +134,5 @@ QDomDocument Loader::getDom()
 
 	return res;
 }
+
 } //namespace url

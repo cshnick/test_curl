@@ -40,8 +40,8 @@
 #include "CurrencyData.h"
 #include <QDebug>
 
-CurrencyData::CurrencyData(QObject *parent)
-    : QObject(parent)
+CurrencyData::CurrencyData()
+    : m_value(0.0)
 {
 }
 
@@ -73,16 +73,6 @@ qreal CurrencyData::value() const
 void CurrencyData::setValue(qreal value)
 {
     m_value = value;
-}
-
-QColor CurrencyData::color_val()
-{
-    return m_color;
-}
-
-void CurrencyData::setColor_val(const QColor &p_col)
-{
-    m_color = p_col;
 }
 
 QString CurrencyData::alt_color() const
