@@ -8,6 +8,13 @@ Window {
 
     property int global_width: 270
     property int global_height: 480
+    property CurrencyFilterModel g_model: Qt.createQmlObject('import QtQuick 2.0; import CurrcData 1.0; CurrencyFilterModel {
+                        id: d_model
+
+                        Component.onCompleted: refresh()
+                    }', window, "")
+
+
     width: global_width
     height: global_height
     visible: true
@@ -96,6 +103,13 @@ Window {
                     onClicked: {
                         process_index(l_index)
                     }
+
+//                    lstView.model: CurrencyFilterModel {
+//                        id: d_model
+
+//                        Component.onCompleted: refresh()
+//                    }
+                    lstView.model: window.g_model
 
 
                     lstView.currentIndex: m_index

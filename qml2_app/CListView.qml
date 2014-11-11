@@ -2,7 +2,6 @@ import QtQuick 2.3
 import CurrcData 1.0
 
 Item {
-    property CurrencyFilterModel dtaModel: dataModel
     property alias lstView: listView1
 
     id: listView_main
@@ -60,11 +59,12 @@ Item {
                 }
             }
         }
-        model: CurrencyFilterModel {
-            id: dataModel
+//        model: dataModel
+//                model: CurrencyFilterModel {
+//            id: dataModel
 
-            Component.onCompleted: dataModel.refresh()
-        }
+//            Component.onCompleted: dataModel.refresh()
+//        }
         highlight: Rectangle  {
             color:"black"
             radius: 3
