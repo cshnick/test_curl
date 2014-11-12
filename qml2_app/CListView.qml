@@ -59,12 +59,6 @@ Item {
                 }
             }
         }
-//        model: dataModel
-//                model: CurrencyFilterModel {
-//            id: dataModel
-
-//            Component.onCompleted: dataModel.refresh()
-//        }
         highlight: Rectangle  {
             color:"black"
             radius: 3

@@ -19,6 +19,7 @@ Window {
     height: global_height
     visible: true
     Item {
+        id: root_whole
         x: parent.x
         y: parent.y
         width: parent.width
@@ -87,28 +88,18 @@ Window {
 
                         var root_model = root_item.ListView.view.model
                         var root_index = root_item.ListView.view.currentIndex
-                        var replace_list_element = elemFromParams(lstView.currentIndex, lstView.model)
+                        var replace_list_element = JSHelper.elemFromParams(lstView.currentIndex, lstView.model)
                         root_model.set(index, replace_list_element)
-                    }
 
-                    function elemFromParams(index, model) {
-                        console.log("elemFromParams-> : ", model.get(index, EnumProvider.ColorNameRole))
-                        return ({"name":model.get(index, EnumProvider.NameRole),
-                                    "code":model.get(index, EnumProvider.CodeRole),
-                                    "color_val":model.get(index, EnumProvider.ColorNameRole),
-                                    "value":model.get(index, EnumProvider.ValueRole)
-                                })
+                        var c = new JSHelper.Model_context(root_model, index, valueEdit.text)
+                        console.log("model: " + c.model + "; index: " + c.index + "; other index: " + c.other_index + "; text: " + valueEdit.text)
+                        root_model.setProperty(c.other_index, "count", c.formatted_calc())
                     }
 
                     onClicked: {
                         process_index(l_index)
                     }
 
-//                    lstView.model: CurrencyFilterModel {
-//                        id: d_model
-
-//                        Component.onCompleted: refresh()
-//                    }
                     lstView.model: window.g_model
 
 
@@ -118,28 +109,6 @@ Window {
 
                 CInputEdit {
                     id: valueEdit
-
-
-                    function to_formatted(arg) {
-                        var result = NaN
-                        if (arg !== NaN) {
-                            result = arg.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ')
-                        }
-
-                        return result
-                    }
-
-                    function from_formatted(arg) {
-                        arg = arg.toString()
-                        return parseFloat(arg.replace(/\s/g,''))
-                    }
-
-                    function calculate(val1, val2) {
-                        console.log("calculate result:")
-                        console.log("val1: " + val1 + "; val2: " + val2 + "; text" + text)
-                        var result = val2 * from_formatted(text) / val1
-                        return result
-                    }
 
                     anchors.bottom: root_item.bottom
                     width: root_list.width
@@ -151,20 +120,21 @@ Window {
                     font.bold: true
                     selectByMouse: true
                     horisontalAlignment: Text.AlignRight
+//                    z: textFocus ? 2 : 0
+                    z: 2
                     onTextChanged: {
-                        /// Detect index for opposite item
-                        var otherIndex = index ? 0 : 1
-                        var num = parseFloat(text.replace(/\s/g,''))
-
                         if (textFocus) { //Disable recursive onTextChanged calls
-                            var val1 = root_model.get(index).value
-                            var val2 = root_model.get(otherIndex).value
-                            var result = to_formatted(calculate(val1, val2))
-                            root_model.setProperty(otherIndex, "count", result)
-                            console.log("Original num: " + num + "; Formatted number: " + num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& '))
+                            var c = new JSHelper.Model_context(root_model, index, text)
+                            root_model.setProperty(c.other_index, "count", c.formatted_calc())
                         }
                     }
-                }
+                    onTextFocusChanged: {
+//                        root_item.ListView.view.hasTextFocus = focus
+//                        console.log("Text Focus changed to" + focus)
+//                        console.log("global focus" + root_item.ListView.view.hasTextFocus)
+
+                    }
+               }
 
                 CInputEdit {
                     id: search_input
@@ -176,7 +146,7 @@ Window {
                     font.pixelSize: global_height * 0.0625 / 2
                     textColor: "#2E6496"
                     font.bold: false
-                    onInputTextChanged: cur_list.dtaModel.stringChanged(text)
+                    onInputTextChanged: cur_list.lstView.model.stringChanged(text)
 
                     Keys.onUpPressed: {
                         cur_list.lstView.decrementCurrentIndex()
@@ -191,7 +161,7 @@ Window {
 
                     opacity: 0
                     visible: false
-                    z: 1
+
                 }
 
                 MouseArea {
@@ -203,6 +173,8 @@ Window {
                     height: parent.height - valueEdit.height
                     z: 1
                     onClicked: {
+                        console.log("<<--ch_area clicked-->")
+                        console.log("value edit focus: " + valueEdit.focus)
                         valueEdit.focus = true
                         root_item.state = "CHOOSE"
                         var index1 = Settings.value("main/index1", 22)
@@ -210,6 +182,39 @@ Window {
                         cur_list.lstView.positionViewAtIndex(index1, ListView.Beginning)
                         search_input.forceTextFocus()
                     }
+                }
+
+                Rectangle {
+                    id: block_value_area
+                    x: parent.x
+                    y: parent.y
+
+                    width: parent.width * 2
+                    height: root_item.height * 2
+                    z: 1.1
+
+                    color: "black"
+                    opacity: 0.3
+                    visible: valueEdit.textFocus
+                    onVisibleChanged: {
+                        console.log("visible changed")
+                        console.log("x: " + x + "; y: " + y + "; width: " + width + "; height: " + height)
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        onClicked: {
+                            console.log("<<<<<====<<--block_value_area clicked-->>======>>>>>>")
+                            console.log("x: " + x + "; y: " + y + "; width: " + width + "; height: " + height)
+                        }
+                        z: 1.2
+                    }
+
+                    clip: false
+//                    Component.onCompleted: {
+//                        mapToItem(root_item)
+//                    }
                 }
 
                 function check_y() {
@@ -227,7 +232,13 @@ Window {
                         PropertyChanges {target: cur_list; opacity: 1; y: search_input.height}
                         PropertyChanges {target: root_item; height: root_list.height; y: root_list.y}
                         PropertyChanges {target: root_list; y: check_y(); interactive: false}
+                    },
+                    State {
+                        name: "ENTER_VALUE"
+
+//                        PropertyChanges {target: root_list}
                     }
+
                 ]
                 transitions: [
                     Transition {
@@ -246,12 +257,12 @@ Window {
         ListView {
             id: root_list
 
+            property bool hasTextFocus: false
             x: parent.x; y: parent.y
             width: parent.width; height: parent.height
             model: root_model
             delegate: root_delegate
         }
-
 
         ListModel {
             id: root_model
@@ -270,10 +281,16 @@ Window {
                 value: 1.2737
                 color_val: "#F075B7"
                 m_index: 145
+                count: 0
             }
         }
 
         states: [
+            State {
+                name: "state1"
+                PropertyChanges {target: root_list; visible: false}
+            }
+
         ]
     }
 }
