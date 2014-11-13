@@ -7,10 +7,10 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 #ifdef Q_OS_ANDROID
-//    engine.load(QUrl(QStringLiteral("qrc:/main_abstrmdl.qml")));
     engine.addImportPath("assets:/plugins");
 #endif
     engine.load(QUrl(QStringLiteral("qrc:/CMainList.qml")));
+//    engine.load(QUrl(QStringLiteral("qrc:/JustTest.qml")));
 
     return app.exec();
 }

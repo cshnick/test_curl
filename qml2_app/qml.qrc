@@ -4,5 +4,6 @@
         <file>CMainList.qml</file>
         <file>CInputEdit.qml</file>
         <file>MainListHelper.js</file>
+        <file>JustTest.qml</file>
     </qresource>
 </RCC>

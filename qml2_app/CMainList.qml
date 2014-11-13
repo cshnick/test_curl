@@ -11,7 +11,7 @@ Window {
     property CurrencyFilterModel g_model: Qt.createQmlObject('import QtQuick 2.0; import CurrcData 1.0; CurrencyFilterModel {
                         id: d_model
 
-                        Component.onCompleted: refresh()
+                        //Component.onCompleted: refresh()
                     }', window, "")
 
 

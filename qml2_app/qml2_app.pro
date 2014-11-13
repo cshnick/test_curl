@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick
+QT += qml quick xml
 
 SOURCES += main.cpp
 
@@ -11,5 +11,6 @@ DESTDIR = ../bin
 QML_IMPORT_PATH =
 
 android {
-    ANDROID_EXTRA_LIBS += $$OUT_PWD/../bin/CurrcData/libcurrcdataplugin.so
+    ANDROID_EXTRA_LIBS += $$OUT_PWD/../bin/CurrcData/libcurrcdataplugin.so \
+                          $$OUT_PWD/../bin/CurrcData/liburlLoader.so
 }
