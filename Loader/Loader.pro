@@ -2,7 +2,8 @@ TEMPLATE = lib
 TARGET = $$qtLibraryTarget(urlLoader)
 #TEMPLATE = app
 #TARGET = urlLoader
-DESTDIR = ../bin/CurrcData
+URI=CurrcData
+DESTDIR = ../bin/$$URI
 
 DEFINES += URLLOADER_LIBRARY
 
@@ -18,6 +19,12 @@ lib_curl {
     HEADERS += src/loader_private_qt.h
     SOURCES += src/loader_qt.cpp
     QT += network
+}
+
+android {
+    DEST_PATH=/assets/plugins/$$URI
+    target.path=$$DEST_PATH
+    INSTALLS += target
 }
 
 HEADERS += \

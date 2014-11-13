@@ -184,39 +184,6 @@ Window {
                     }
                 }
 
-                Rectangle {
-                    id: block_value_area
-                    x: parent.x
-                    y: parent.y
-
-                    width: parent.width * 2
-                    height: root_item.height * 2
-                    z: 1.1
-
-                    color: "black"
-                    opacity: 0.3
-                    visible: valueEdit.textFocus
-                    onVisibleChanged: {
-                        console.log("visible changed")
-                        console.log("x: " + x + "; y: " + y + "; width: " + width + "; height: " + height)
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-
-                        onClicked: {
-                            console.log("<<<<<====<<--block_value_area clicked-->>======>>>>>>")
-                            console.log("x: " + x + "; y: " + y + "; width: " + width + "; height: " + height)
-                        }
-                        z: 1.2
-                    }
-
-                    clip: false
-//                    Component.onCompleted: {
-//                        mapToItem(root_item)
-//                    }
-                }
-
                 function check_y() {
                     return index ? -root_list.height / 2 : 0
                 }
