@@ -3,7 +3,9 @@ CONFIG += plugin
 CONFIG += c++11
 QT += qml quick xml
 
-DESTDIR = ../bin/CurrcData
+URI=CurrcData
+
+DESTDIR = ../bin/$$URI
 TARGET = $$qtLibraryTarget(currcdataplugin)
 
 HEADERS += \
@@ -35,6 +37,20 @@ QMAKE_RPATHDIR += \$\$ORIGIN/../lib
 IDE_PLUGIN_RPATH = $$join(QMAKE_RPATHDIR, ":")
 QMAKE_LFLAGS += -Wl,-z,origin \'-Wl,-rpath,$${IDE_PLUGIN_RPATH}\'
 QMAKE_RPATHDIR =
+
+android {
+    message("PWD is $$PWD")
+    message("OUT_PWD is $$OUT_PWD")
+    message("TARGET is $$TARGET")
+    message("DESTDIR is $$DESTDIR")
+    message("DESTDIR_TARGET is $$DESTDIR_TARGET")
+    message("qtLibraryTarget(currcdataplugin) is $$qtLibraryTarget(currcdataplugin)")
+    DEST_PATH=/assets/plugins/$$URI
+    qmldir.files=$$PWD/qmldir
+    qmldir.path=$$DEST_PATH
+    target.path=$$DEST_PATH
+    INSTALLS += qmldir target
+}
 
 
 # Copy the qmldir file to the same folder as the plugin binary

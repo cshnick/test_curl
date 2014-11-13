@@ -8,12 +8,12 @@ DEFINES += URLLOADER_LIBRARY
 
 CONFIG += c++11
 QT += xml
-LIBS += -lcurl
 
 #CONFIG += lib_curl
 
 lib_curl {
     SOURCES += src/loader_curl.cpp
+    LIBS += -lcurl
 } else {
     HEADERS += src/loader_private_qt.h
     SOURCES += src/loader_qt.cpp

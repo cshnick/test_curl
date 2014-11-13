@@ -1,4 +1,5 @@
 android-no-sdk {
+    message("Android no sdk")
     target.path = /data/user/qt
     export(target.path)
     INSTALLS += target
@@ -25,3 +26,4 @@ android-no-sdk {
 }
 
 export(INSTALLS)
+

@@ -13,7 +13,7 @@ static QColor genColor() {
 }
 
 static const QString g_data_url = "rss.timegenie.com/forex.xml";
-static const QString g_fileName = QString(get_current_dir_name()) +"/CurrcData/colors.dat";
+static const QString g_fileName = qApp->applicationDirPath() +"/CurrcData/colors.dat";
 static void genColorsAsStream(const QString fileName, uint elCount) {
     if (!QFileInfo(fileName).dir().exists()) {
         qDebug() << "Directory" << fileName << "does not exist";
