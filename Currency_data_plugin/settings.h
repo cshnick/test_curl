@@ -8,6 +8,9 @@ class Settings : public QSettings
     Q_OBJECT
 
 public:
+    Q_PROPERTY(bool Android READ Android)
+    Q_PROPERTY(bool Unix READ Unix)
+
     explicit Settings(QObject *parent = 0);
     ~Settings();
 
@@ -15,6 +18,9 @@ public:
         ENUM1 = 50,
         ENUM2
     };
+
+    bool Android() const;
+    bool Unix() const;
 
     Q_INVOKABLE void setValue(const QString &key, const QVariant &value);
     Q_INVOKABLE QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;

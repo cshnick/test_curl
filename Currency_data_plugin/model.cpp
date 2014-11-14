@@ -13,7 +13,6 @@ static QColor genColor() {
 }
 
 static const QString g_data_url = "rss.timegenie.com/forex.xml";
-static const QString g_fileName = qApp->applicationDirPath() +"/CurrcData/colors.dat";
 static void genColorsAsStream(const QString fileName, uint elCount) {
     if (!QFileInfo(fileName).dir().exists()) {
         qDebug() << "Directory" << fileName << "does not exist";
@@ -36,45 +35,37 @@ static void genColorsAsStream(const QString fileName, uint elCount) {
     qDebug() << "Finished color map generation, elapsed time" << cur.msecsTo(QTime::currentTime());
 }
 
-static struct GColorStack {
-    GColorStack() : m_counter(0) {
-        qDebug() << "GColorStack constructor";
+GColorStack::GColorStack() : m_counter(0) {
+    qDebug() << "GColorStack constructor";
 
-        if (QFileInfo(g_fileName).exists()) {
-            m_file.setFileName(g_fileName);
-            m_file.open(QIODevice::ReadOnly);
-            m_dataStream.setDevice(&m_file);
-            m_dataStream >> m_count;
-            qDebug() << "GColorStack created, elements number" << m_count;
-        } else {
-            qDebug() << "File" << g_fileName << "does not exist";
-        }
+    m_file.setFileName(":/Colors/colors.dat");
+    if (m_file.open(QIODevice::ReadOnly)) {
+        m_dataStream.setDevice(&m_file);
+        m_dataStream >> m_count;
+        qDebug() << "GColorStack created, elements number" << m_count;
+    } else {
+        qDebug() << "File" << m_file.fileName() << "does not exist";
     }
+}
 
-    ~GColorStack() {
+GColorStack::~GColorStack() {
+    m_file.close();
+}
+
+uint GColorStack::getValue() {
+    if (++m_counter == m_count) {
+        m_counter = 0;
         m_file.close();
+        m_file.open(QIODevice::ReadOnly);
+
+        m_dataStream.setDevice(&m_file);
     }
 
-    uint getValue() {
-        if (++m_counter == m_count) {
-            m_counter = 0;
-            m_file.close();
-            m_file.open(QIODevice::ReadOnly);
+    uint tmp;
+    m_dataStream >> tmp;
 
-            m_dataStream.setDevice(&m_file);
-        }
-
-        uint tmp;
-        m_dataStream >> tmp;
-
-        return tmp;
-    }
-
-    QDataStream m_dataStream;
-    QFile m_file;
-    uint m_count;
-    uint m_counter;
-} g_color_stack;
+    return tmp;
+}
 
 CurrencyDataModel::CurrencyDataModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -164,7 +155,7 @@ void CurrencyDataModel::fillFromDom(const QDomDocument &doc)
                 cel.setValue(sx.text().toDouble());
             }
         }
-        uint nextValue = g_color_stack.getValue();
+        uint nextValue = m_colorstack.getValue();
         cel.setAlt_color(QColor::fromRgba(nextValue).name());
         append(cel);
     }

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Colors/colors.dat</file>
+    </qresource>
+</RCC>

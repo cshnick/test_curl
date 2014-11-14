@@ -1,11 +1,24 @@
 #include <QAbstractListModel>
 #include <QStringList>
+#include <QFile>
 
 #include "CurrencyData.h"
 
 namespace url {
 class Loader;
 }
+
+struct GColorStack {
+    GColorStack();
+
+    ~GColorStack() ;
+    uint getValue();
+
+    QDataStream m_dataStream;
+    QFile m_file;
+    uint m_count;
+    uint m_counter;
+};
 
 class QDomDocument;
 class CurrencyDataModel : public QAbstractListModel
@@ -34,6 +47,7 @@ private:
 private:
     QList<CurrencyData> m_currencies;
     url::Loader *m_loader;
+    GColorStack m_colorstack;
 };
 
 

@@ -6,12 +6,12 @@ import "MainListHelper.js" as JSHelper
 Window {
     id: window
 
-    property int global_width: 270
-    property int global_height: 480
+    property int global_width: Settings.Android ? 720 : 270
+    property int global_height: Settings.Android ? 1240 : 480
     property CurrencyFilterModel g_model: Qt.createQmlObject('import QtQuick 2.0; import CurrcData 1.0; CurrencyFilterModel {
                         id: d_model
 
-                        //Component.onCompleted: refresh()
+                        Component.onCompleted: refresh()
                     }', window, "")
 
 
@@ -53,7 +53,7 @@ Window {
                     Text {
                         anchors.centerIn: parent
                         text: code
-                        font.pixelSize: 24
+                        font.pixelSize: window.global_height * 0.05
                         font.bold: true
                         color: "white"
                     }
@@ -66,7 +66,7 @@ Window {
                     width: parent.width - image.width
                     height: image.height
                     color: "#444"
-                    font.pixelSize: 18
+                    font.pixelSize: window.global_height * 0.0375
                     font.bold: true
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -81,6 +81,10 @@ Window {
                     x: 0; y: root_list.height
                     width: parent.width
                     height: parent.height
+
+                    iconsize: Qt.size(window.global_height * 0.083, window.global_height * 0.083)
+                    icontextsize: window.global_height * 0.025
+                    itemtextpixsize: window.global_height * 0.025
 
                     function process_index(pl_index) {
                         Settings.setValue("main/index" + index, pl_index)
@@ -180,7 +184,9 @@ Window {
                         var index1 = Settings.value("main/index1", 22)
                         cur_list.lstView.currentIndex = index1
                         cur_list.lstView.positionViewAtIndex(index1, ListView.Beginning)
-                        search_input.forceTextFocus()
+                        if (!Settings.Android) {
+                            search_input.forceTextFocus()
+                        }
                     }
                 }
 

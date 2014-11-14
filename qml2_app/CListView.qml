@@ -3,6 +3,9 @@ import CurrcData 1.0
 
 Item {
     property alias lstView: listView1
+    property size iconsize: Qt.size(40, 40)
+    property int itemtextpixsize: 12
+    property int icontextsize: 12
 
     id: listView_main
     signal clicked(int l_index)
@@ -16,7 +19,7 @@ Item {
         delegate: Item {
             id: delegate
             width: parent.width
-            height: 40
+            height: iconsize.height
 
             Row {
                 id: row1
@@ -24,14 +27,15 @@ Item {
                 width: parent.width
 
                 Rectangle {
-                    width: 40
-                    height: 40
+                    width: iconsize.width
+                    height: iconsize.height
                     color: colorCode
                     Text {
                         color: "white"
                         text: code
                         anchors.centerIn: parent
                         font.bold: true
+                        font.pixelSize: icontextsize
                     }
                 }
 
@@ -41,10 +45,12 @@ Item {
                     Text {
                         text: name
                         font.bold: true
+                        font.pixelSize: itemtextpixsize
                     }
                     Text {
                         text: value
                         font.bold: false
+                        font.pixelSize: itemtextpixsize
                     }
                 }
             }

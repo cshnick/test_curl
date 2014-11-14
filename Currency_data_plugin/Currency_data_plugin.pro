@@ -54,4 +54,7 @@ android {
 
 
 # Copy the qmldir file to the same folder as the plugin binary
-QMAKE_POST_LINK += $$QMAKE_COPY $$replace($$list($$quote($$PWD/qmldir) $$DESTDIR), /, $$QMAKE_DIR_SEP) && $$QMAKE_COPY $$replace($$list($$quote($$PWD/../Additional/colors.dat) $$DESTDIR), /, $$QMAKE_DIR_SEP)
+QMAKE_POST_LINK += $$QMAKE_COPY $$replace($$list($$quote($$PWD/qmldir) $$DESTDIR), /, $$QMAKE_DIR_SEP)
+
+RESOURCES += \
+    res.qrc
