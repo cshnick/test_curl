@@ -1,23 +1,35 @@
+
+#ifdef PLASMA_WIDGET
+#include <QApplication>
+#include "qtquick1applicationviewer.h"
+#define APPLICATION QApplication
+#else
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#define APPLICATION QGuiApplication
+#endif //PLASMA_WIDGET
+
 #include <QDebug>
 #include <QFile>
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
+    APPLICATION app(argc, argv);
 
+#ifndef PLASMA_WIDGET
     QQmlApplicationEngine engine;
 #ifdef Q_OS_ANDROID
-    QFile f;
-    f.setFileName("assets:/colorstack/colors.dat");
-    if (f.open(QIODevice::ReadOnly)) {
-        qDebug() << "Opened asset file";
-    }
     engine.addImportPath("assets:/plugins");
+#endif //Q_OS_ANDROID
+    engine.load(QUrl(QStringLiteral("qrc:/q2Loader.qml")));
+    //    engine.load(QUrl(QStringLiteral("qrc:/JustTest.qml")));
+#else //PLASMA_WIDGET
+    QtQuick1ApplicationViewer viewer;
+    viewer.addImportPath(QLatin1String("modules"));
+    viewer.setOrientation(QtQuick1ApplicationViewer::ScreenOrientationAuto);
+    viewer.setMainQmlFile(QLatin1String("qrc:/q1Loader.qml"));
+    viewer.showExpanded();
 #endif
-    engine.load(QUrl(QStringLiteral("qrc:/CMainList.qml")));
-//    engine.load(QUrl(QStringLiteral("qrc:/JustTest.qml")));
 
     return app.exec();
 }

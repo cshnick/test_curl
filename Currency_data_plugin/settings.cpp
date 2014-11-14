@@ -29,6 +29,14 @@ bool Settings::Unix() const {
 #endif
 }
 
+bool Settings::QmlPlasmoid() const {
+#ifdef PLASMA_WIDGET
+    return true;
+#else
+    return false;
+#endif
+}
+
 void Settings::setValue(const QString &key, const QVariant &value)
 {
     QSettings::setValue(key, value);

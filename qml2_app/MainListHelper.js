@@ -1,3 +1,7 @@
+function version() {
+    return 2.0;
+}
+
 function calculate(val1, val2, count) {
     console.log("val1: " + val1 + "; val2: " + val2 + "; text: " + count)
     var result = val2 * count / val1 //from_formatted(text)

@@ -5,5 +5,7 @@
         <file>CInputEdit.qml</file>
         <file>MainListHelper.js</file>
         <file>JustTest.qml</file>
+        <file>q2Loader.qml</file>
+        <file>q1Loader.qml</file>
     </qresource>
 </RCC>

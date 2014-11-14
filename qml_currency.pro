@@ -1,6 +1,8 @@
+include(common.pri)
+
 TEMPLATE = subdirs
 CONFIG += ordered
-SUBDIRS = \
+SUBDIRS += \
           Loader \
           Currency_data_plugin \
           qml2_app

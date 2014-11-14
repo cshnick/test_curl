@@ -1,9 +1,14 @@
+include(../common.pri)
+
 TEMPLATE = lib
 CONFIG += plugin
 CONFIG += c++11
-QT += qml quick xml
-
-URI=CurrcData
+QT +=  xml
+contains(DEFINES, PLASMA_WIDGET) {
+    QT += declarative
+} else {
+    QT += qml quick
+}
 
 DESTDIR = ../bin/$$URI
 TARGET = $$qtLibraryTarget(currcdataplugin)

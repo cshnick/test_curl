@@ -40,13 +40,21 @@
 #ifndef CHARTSPLUGIN_H
 #define CHARTSPLUGIN_H
 
+#ifndef PLASMA_WIDGET
 #include <QQmlExtensionPlugin>
+#define BASE_PLUGIN QQmlExtensionPlugin
+#define BASE_ENGINE QQmlEngine
+#else // PLASMA_WIDGET
+#include <QDeclarativeExtensionPlugin>
+#define BASE_PLUGIN QDeclarativeExtensionPlugin
+#define BASE_ENGINE QDeclarativeEngine
+#endif
 
 class QObject;
 class QJSEngine;
 
 template <class T>
-QObject *singleton_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+QObject *singleton_provider(BASE_ENGINE *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)
     Q_UNUSED(scriptEngine)
@@ -55,7 +63,7 @@ QObject *singleton_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     return obj;
 }
 
-class ChartsPlugin : public QQmlExtensionPlugin
+class ChartsPlugin : public BASE_PLUGIN
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "ilia.home.currency_extension")

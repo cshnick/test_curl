@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 1.0
 
 Rectangle {
     id: input_edit
@@ -12,7 +12,7 @@ Rectangle {
     property alias text: input.text
     property alias font: input.font
     property alias selectByMouse: input.selectByMouse
-    property alias verticalAlignment: input.verticalAlignment
+    property alias verticalAlignment: input.verticalCenter
     property alias horisontalAlignment: input.horizontalAlignment
     property color textColor
     property alias textFocus: input.focus
@@ -28,7 +28,7 @@ Rectangle {
         id: input
         anchors.fill: parent
         anchors.margins: 7
-        verticalAlignment: TextInput.AlignVCenter
+//        verticalAlignment: TextInput.AlignVCenter
 
         onFocusChanged: {
             console.log("input edit focus changed")

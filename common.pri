@@ -1,0 +1,3 @@
+URI=CurrcData
+
+DEFINES += PLASMA_WIDGET

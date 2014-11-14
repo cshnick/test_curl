@@ -1,9 +1,10 @@
-import QtQuick 2.3
+import QtQuick 1.0
 import CurrcData 1.0
 
 Item {
     property alias lstView: listView1
-    property size iconsize: Qt.size(40, 40)
+    property int iconwidth: 40
+    property int iconheight: 40
     property int itemtextpixsize: 12
     property int icontextsize: 12
 
