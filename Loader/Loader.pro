@@ -10,7 +10,9 @@ DEFINES += URLLOADER_LIBRARY
 CONFIG += c++11
 QT += xml
 
-#CONFIG += lib_curl
+contains(DEFINES, PLASMA_WIDGET) {
+    CONFIG += lib_curl
+}
 
 lib_curl {
     SOURCES += src/loader_curl.cpp

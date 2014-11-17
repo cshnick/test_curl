@@ -152,6 +152,7 @@ CurrencyDataModel::CurrencyDataModel(QObject *parent)
 {
     qDebug() << "CurrencyDataModel constructor start";
     m_parser = DomParser::create<NbRbParser>(this);
+//    m_parser = DomParser::create<ForexParser>(this);
     connect(m_loader, SIGNAL(documentDownloaded(QDomDocument)), this, SLOT(onAsyncDownload(QDomDocument)));
 }
 

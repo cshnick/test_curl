@@ -32,3 +32,7 @@ void ChartsPlugin::registerTypes(const char *uri)
 //    DEFAULT_REGISTER_SINGLETON(Settings);
 //    DEFAULT_REGISTER_SINGLETON(EnumProvider);
 }
+
+#ifdef PLASMA_WIDGET
+Q_EXPORT_PLUGIN2(currcdataplugin, ChartsPlugin)
+#endif //PLASMA_WIDGET

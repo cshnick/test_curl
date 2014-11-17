@@ -66,7 +66,9 @@ QObject *singleton_provider(BASE_ENGINE *engine, QJSEngine *scriptEngine)
 class ChartsPlugin : public BASE_PLUGIN
 {
     Q_OBJECT
+#ifndef PLASMA_WIDGET
     Q_PLUGIN_METADATA(IID "ilia.home.currency_extension")
+#endif
 
 public:
     void registerTypes(const char *uri);

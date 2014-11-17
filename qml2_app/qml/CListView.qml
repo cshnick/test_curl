@@ -18,7 +18,7 @@ Item {
         anchors.fill: parent
         highlightMoveDuration: 75
         delegate: Item {
-            id: delegate
+            id: list_delegate
             width: parent.width
             height: iconheight
 
