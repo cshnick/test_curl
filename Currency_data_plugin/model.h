@@ -8,6 +8,9 @@ namespace url {
 class Loader;
 }
 
+class QDomDocument;
+class CurrencyDataModel;
+
 struct GColorStack {
     GColorStack();
 
@@ -20,9 +23,41 @@ struct GColorStack {
     uint m_counter;
 };
 
-class QDomDocument;
+class DomParser {
+public:
+    template<class Dereived>
+    static DomParser *create(CurrencyDataModel *p_context) {return Dereived::create(p_context);}
+    virtual QString url() const = 0;
+    virtual void parse(const QDomDocument &doc) = 0;
+};
+
+class ForexParser : public DomParser {
+public:
+    ForexParser(CurrencyDataModel *p);
+    static DomParser *create(CurrencyDataModel *p_context);
+    QString url() const;
+    void parse(const QDomDocument &doc);
+
+private:
+    CurrencyDataModel *m_context;
+};
+
+class NbRbParser : public DomParser {
+public:
+    NbRbParser(CurrencyDataModel *p);
+    static DomParser *create(CurrencyDataModel *p_context);
+    virtual QString url() const;
+    void parse(const QDomDocument &doc);
+
+private:
+    CurrencyDataModel *m_context;
+};
+
 class CurrencyDataModel : public QAbstractListModel
 {
+    friend class ForexParser;
+    friend class NbRbParser;
+
     Q_OBJECT
 public:
     CurrencyDataModel(QObject *parent = 0);
@@ -48,6 +83,7 @@ private:
     QList<CurrencyData> m_currencies;
     url::Loader *m_loader;
     GColorStack m_colorstack;
+    DomParser *m_parser;
 };
 
 

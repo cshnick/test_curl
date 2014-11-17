@@ -1,11 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>CListView.qml</file>
-        <file>CMainList.qml</file>
-        <file>CInputEdit.qml</file>
-        <file>MainListHelper.js</file>
-        <file>JustTest.qml</file>
-        <file>q2Loader.qml</file>
-        <file>q1Loader.qml</file>
+        <file>qml/CListView.qml</file>
+        <file>qml/CMainList.qml</file>
+        <file>qml/CInputEdit.qml</file>
+        <file>qml/MainListHelper.js</file>
+        <file>qml/JustTest.qml</file>
+        <file>qml/q2Loader.qml</file>
+        <file>qml/q1Loader.qml</file>
     </qresource>
 </RCC>

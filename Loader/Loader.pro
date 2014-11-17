@@ -1,8 +1,8 @@
+include(../common.pri)
 TEMPLATE = lib
 TARGET = $$qtLibraryTarget(urlLoader)
 #TEMPLATE = app
 #TARGET = urlLoader
-URI=CurrcData
 DESTDIR = ../bin/$$URI
 
 DEFINES += URLLOADER_LIBRARY
@@ -22,8 +22,10 @@ lib_curl {
 }
 
 android {
-    DEST_PATH=/assets/plugins/$$URI
     target.path=$$DEST_PATH
+    INSTALLS += target
+} else: contains(DEFINES, PLASMA_WIDGET) {
+    target.path=$$DEST_PATH/$$URI
     INSTALLS += target
 }
 

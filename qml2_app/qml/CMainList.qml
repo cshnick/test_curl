@@ -1,5 +1,6 @@
 import CurrcData 1.0
-import QtQuick 1.1
+import QtQuick 1.0
+import "MainListHelper.js" as JSHelper
 
 Item {
     id: root_whole
@@ -7,6 +8,7 @@ Item {
     y: parent.y
     width: parent.width
     height: parent.height
+
     Component {
         id: root_delegate
         Item {
@@ -58,6 +60,12 @@ Item {
                 text: name
             }
 
+            CurrencyFilterModel {
+                id: m_model
+
+                Component.onCompleted: refresh()
+            }
+
             CListView {
                 id: cur_list
 
@@ -71,7 +79,7 @@ Item {
                 itemtextpixsize: window.global_height * 0.025
 
                 function process_index(pl_index) {
-                    Settings.setValue("main/index" + index, pl_index)
+                    settings.setValue("main/index" + index, pl_index)
                     root_item.state = ""
 
                     var root_model = root_item.ListView.view.model
@@ -88,8 +96,7 @@ Item {
                     process_index(l_index)
                 }
 
-                lstView.model: window.g_model
-
+                lstView.model: m_model
 
                 lstView.currentIndex: m_index
                 opacity: 0
@@ -168,10 +175,10 @@ Item {
                     console.log("value edit focus: " + valueEdit.focus)
                     valueEdit.focus = true
                     root_item.state = "CHOOSE"
-                    var index1 = Settings.value("main/index1", 22)
+                    var index1 = settings.value("main/index1", 22)
                     cur_list.lstView.currentIndex = index1
                     cur_list.lstView.positionViewAtIndex(index1, ListView.Beginning)
-                    if (!Settings.Android) {
+                    if (!settings.Android) {
                         search_input.forceTextFocus()
                     }
                 }

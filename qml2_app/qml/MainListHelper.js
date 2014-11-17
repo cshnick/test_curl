@@ -4,7 +4,7 @@ function version() {
 
 function calculate(val1, val2, count) {
     console.log("val1: " + val1 + "; val2: " + val2 + "; text: " + count)
-    var result = val2 * count / val1 //from_formatted(text)
+    var result = val1 * count / val2 //from_formatted(text)
     console.log("calculate result:" + result)
     return result
 }

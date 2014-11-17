@@ -29,10 +29,9 @@ SOURCES += \
     settings.cpp
 
 LIBS += -L$${OUT_PWD}/../bin/CurrcData -lurlLoader
-message("looking for a bin"$${OUT_PWD}/../bin)
 
-OTHER_FILES += qmldir \
-    ../Additional/colors.dat
+#OTHER_FILES += qmldir \
+#    ../Additional/colors.dat
 
  #do the rpath by hand since it's not possible to use ORIGIN in QMAKE_RPATHDIR
 # this expands to $ORIGIN (after qmake and make), it does NOT read a qmake var
@@ -44,16 +43,21 @@ QMAKE_LFLAGS += -Wl,-z,origin \'-Wl,-rpath,$${IDE_PLUGIN_RPATH}\'
 QMAKE_RPATHDIR =
 
 android {
-    message("PWD is $$PWD")
-    message("OUT_PWD is $$OUT_PWD")
-    message("TARGET is $$TARGET")
-    message("DESTDIR is $$DESTDIR")
-    message("DESTDIR_TARGET is $$DESTDIR_TARGET")
-    message("qtLibraryTarget(currcdataplugin) is $$qtLibraryTarget(currcdataplugin)")
+#    message("PWD is $$PWD")
+#    message("OUT_PWD is $$OUT_PWD")
+#    message("TARGET is $$TARGET")
+#    message("DESTDIR is $$DESTDIR")
+#    message("DESTDIR_TARGET is $$DESTDIR_TARGET")
+#    message("qtLibraryTarget(currcdataplugin) is $$qtLibraryTarget(currcdataplugin)")
     DEST_PATH=/assets/plugins/$$URI
     qmldir.files=$$PWD/qmldir
     qmldir.path=$$DEST_PATH
     target.path=$$DEST_PATH
+    INSTALLS += qmldir target
+} else: contains(DEFINES, PLASMA_WIDGET) {
+    target.path=$$DEST_PATH/$$URI
+    qmldir.files=$$PWD/qmldir
+    qmldir.path=$$DEST_PATH/$$URI
     INSTALLS += qmldir target
 }
 

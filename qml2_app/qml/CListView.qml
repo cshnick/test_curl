@@ -20,7 +20,7 @@ Item {
         delegate: Item {
             id: delegate
             width: parent.width
-            height: iconsize.height
+            height: iconheight
 
             Row {
                 id: row1
@@ -28,8 +28,8 @@ Item {
                 width: parent.width
 
                 Rectangle {
-                    width: iconsize.width
-                    height: iconsize.height
+                    width: iconwidth
+                    height: iconheight
                     color: colorCode
                     Text {
                         color: "white"

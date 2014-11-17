@@ -67,11 +67,91 @@ uint GColorStack::getValue() {
     return tmp;
 }
 
+
+ForexParser::ForexParser(CurrencyDataModel *p) : m_context(p) {}
+DomParser *ForexParser::create(CurrencyDataModel *p_context)
+{
+    return new ForexParser(p_context);
+}
+QString ForexParser::url() const
+{
+    return "rss.timegenie.com/forex.xml";
+}
+void ForexParser::parse(const QDomDocument &doc)
+{
+    if (!m_context || doc.isNull()) {
+        return;
+    }
+    for (QDomElement nx = doc.documentElement().firstChildElement(); !nx.isNull(); nx = nx.nextSiblingElement()) {
+        if (nx.tagName() != "data") {
+            continue;
+        }
+        CurrencyData cel;
+        for (QDomElement sx = nx.firstChildElement(); !sx.isNull(); sx = sx.nextSiblingElement()) {
+            if (sx.tagName() == "code") {
+                cel.setCode(sx.text());
+            } else if (sx.tagName() == "description") {
+                cel.setName(sx.text());
+            } else if (sx.tagName() == "rate") {
+                cel.setValue(sx.text().toDouble());
+            }
+        }
+        uint nextValue = m_context->m_colorstack.getValue();
+        cel.setAlt_color(QColor::fromRgba(nextValue).name());
+        m_context->append(cel);
+    }
+}
+
+NbRbParser::NbRbParser(CurrencyDataModel *p) : m_context(p) {}
+DomParser *NbRbParser::create(CurrencyDataModel *p_context)
+{
+    return new NbRbParser(p_context);
+}
+QString NbRbParser::url() const
+{
+    return "http://www.nbrb.by/Services/XmlExRates.aspx";
+}
+void NbRbParser::parse(const QDomDocument &doc)
+{
+    if (!m_context || doc.isNull()) {
+        return;
+    }
+    //RB is hardcoded
+    CurrencyData byr;
+    byr.setCode("BYR");
+    byr.setName("Белорусский рубль");
+    byr.setValue(1.0);
+    uint nextValue = m_context->m_colorstack.getValue();
+    byr.setAlt_color(QColor::fromRgba(nextValue).name());
+    m_context->append(byr);
+
+    for (QDomElement nx = doc.documentElement().firstChildElement(); !nx.isNull(); nx = nx.nextSiblingElement()) {
+        qDebug() << "nbrb tag name" << nx.tagName();
+        if (nx.tagName() != "Currency") {
+            continue;
+        }
+        CurrencyData cel;
+        for (QDomElement sx = nx.firstChildElement(); !sx.isNull(); sx = sx.nextSiblingElement()) {
+            if (sx.tagName() == "CharCode") {
+                cel.setCode(sx.text());
+            } else if (sx.tagName() == "Name") {
+                cel.setName(sx.text());
+            } else if (sx.tagName() == "Rate") {
+                cel.setValue(sx.text().toDouble());
+            }
+        }
+        uint nextValue = m_context->m_colorstack.getValue();
+        cel.setAlt_color(QColor::fromRgba(nextValue).name());
+        m_context->append(cel);
+    }
+}
+
 CurrencyDataModel::CurrencyDataModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_loader(new url::Loader)
 {
     qDebug() << "CurrencyDataModel constructor start";
+    m_parser = DomParser::create<NbRbParser>(this);
     connect(m_loader, SIGNAL(documentDownloaded(QDomDocument)), this, SLOT(onAsyncDownload(QDomDocument)));
 }
 
@@ -127,7 +207,7 @@ void CurrencyDataModel::onAsyncDownload(const QDomDocument &doc)
 
 void CurrencyDataModel::fillModel()
 {
-    m_loader->setUrl(g_data_url);
+    m_loader->setUrl(m_parser->url());
     QDomDocument doc = m_loader->getDom();
     if (doc.isNull()) {
         qDebug() << "No data within DOM";
@@ -141,24 +221,7 @@ void CurrencyDataModel::fillFromDom(const QDomDocument &doc)
     if (doc.isNull()) {
         return;
     }
-    for (QDomElement nx = doc.documentElement().firstChildElement(); !nx.isNull(); nx = nx.nextSiblingElement()) {
-        if (nx.tagName() != "data") {
-            continue;
-        }
-        CurrencyData cel;
-        for (QDomElement sx = nx.firstChildElement(); !sx.isNull(); sx = sx.nextSiblingElement()) {
-            if (sx.tagName() == "code") {
-                cel.setCode(sx.text());
-            } else if (sx.tagName() == "description") {
-                cel.setName(sx.text());
-            } else if (sx.tagName() == "rate") {
-                cel.setValue(sx.text().toDouble());
-            }
-        }
-        uint nextValue = m_colorstack.getValue();
-        cel.setAlt_color(QColor::fromRgba(nextValue).name());
-        append(cel);
-    }
+    m_parser->parse(doc);
 }
 
 void CurrencyDataModel::refresh()

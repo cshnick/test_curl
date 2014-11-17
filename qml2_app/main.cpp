@@ -1,4 +1,3 @@
-
 #ifdef PLASMA_WIDGET
 #include <QApplication>
 #include "qtquick1applicationviewer.h"
@@ -27,7 +26,7 @@ int main(int argc, char *argv[])
     QtQuick1ApplicationViewer viewer;
     viewer.addImportPath(QLatin1String("modules"));
     viewer.setOrientation(QtQuick1ApplicationViewer::ScreenOrientationAuto);
-    viewer.setMainQmlFile(QLatin1String("qrc:/q1Loader.qml"));
+    viewer.setMainQmlFile(QLatin1String("qrc:/qml/q1Loader.qml"));
     viewer.showExpanded();
 #endif
 
