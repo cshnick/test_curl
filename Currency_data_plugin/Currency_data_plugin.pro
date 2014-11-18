@@ -55,9 +55,9 @@ android {
     target.path=$$DEST_PATH
     INSTALLS += qmldir target
 } else: contains(DEFINES, PLASMA_WIDGET) {
-    target.path=$$DEST_PATH/$$URI
+    target.path=$$DEST_IMPORTS/$$URI
     qmldir.files=$$PWD/qmldir
-    qmldir.path=$$DEST_PATH/$$URI
+    qmldir.path=$$DEST_IMPORTS/$$URI
     INSTALLS += qmldir target
 }
 

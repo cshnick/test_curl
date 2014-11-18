@@ -7,5 +7,7 @@
         <file>qml/JustTest.qml</file>
         <file>qml/q2Loader.qml</file>
         <file>qml/q1Loader.qml</file>
+        <file>qml/CMainList1Delegate.qml</file>
+        <file>qml/CMainList2Delegate.qml</file>
     </qresource>
 </RCC>

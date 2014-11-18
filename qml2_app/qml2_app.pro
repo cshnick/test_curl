@@ -30,6 +30,7 @@ android {
     qml.path = $$DEST_PATH
     metafile.files = $$DEPLOYMENT_FILEPATH/metadata.desktop
     metafile.path = $$DEST_PATH/../../
+    metafile.commands = cp $$DEPLOYMENT_FILEPATH/metadata.desktop $$SERVICES_INSTALL_DIR/plasma-applet-$${PLASMOID_NAME}.desktop
 
     INSTALLS += qml metafile
 }

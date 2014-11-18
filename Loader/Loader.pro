@@ -10,9 +10,9 @@ DEFINES += URLLOADER_LIBRARY
 CONFIG += c++11
 QT += xml
 
-contains(DEFINES, PLASMA_WIDGET) {
-    CONFIG += lib_curl
-}
+#contains(DEFINES, PLASMA_WIDGET) {
+#    CONFIG += lib_curl
+#}
 
 lib_curl {
     SOURCES += src/loader_curl.cpp
@@ -27,7 +27,7 @@ android {
     target.path=$$DEST_PATH
     INSTALLS += target
 } else: contains(DEFINES, PLASMA_WIDGET) {
-    target.path=$$DEST_PATH/$$URI
+    target.path=$$DEST_IMPORTS/$$URI
     INSTALLS += target
 }
 

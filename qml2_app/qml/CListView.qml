@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 1.1
 import CurrcData 1.0
 
 Item {
@@ -22,6 +22,8 @@ Item {
             width: parent.width
             height: iconheight
 
+            property CurrencyFilterModel mdl: ListView.view.model
+
             Row {
                 id: row1
                 spacing: 10
@@ -30,10 +32,10 @@ Item {
                 Rectangle {
                     width: iconwidth
                     height: iconheight
-                    color: colorCode
+                    color: settings.QmlPlasmoid ? mdl.get(index, EnumProvider.ColorNameRole) : colorCode
                     Text {
                         color: "white"
-                        text: code
+                        text: settings.QmlPlasmoid ? mdl.get(index, EnumProvider.CodeRole) : code
                         anchors.centerIn: parent
                         font.bold: true
                         font.pixelSize: icontextsize
@@ -44,12 +46,12 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 2
                     Text {
-                        text: name
+                        text: settings.QmlPlasmoid ? mdl.get(index, EnumProvider.NameRole) : name
                         font.bold: true
                         font.pixelSize: itemtextpixsize
                     }
                     Text {
-                        text: value
+                        text: settings.QmlPlasmoid ? mdl.get(index, EnumProvider.ValueRole) : value
                         font.bold: false
                         font.pixelSize: itemtextpixsize
                     }
@@ -66,11 +68,16 @@ Item {
                 }
             }
         }
+
         highlight: Rectangle  {
             color:"black"
             radius: 3
             opacity: 0.5
             focus: true
+        }
+
+        Component.onCompleted: {
+            console.log("settings qmlplasmoid: " + settings.QmlPlasmoid)
         }
     }
 }

@@ -1,5 +1,6 @@
+import QtQuick 1.1
 import CurrcData 1.0
-import QtQuick 1.0
+
 import "MainListHelper.js" as JSHelper
 
 Item {

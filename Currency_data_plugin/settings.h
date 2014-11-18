@@ -10,7 +10,7 @@ class Settings : public QSettings
 public:
     Q_PROPERTY(bool Android READ Android)
     Q_PROPERTY(bool Unix READ Unix)
-    Q_PROPERTY(bool QmlPlasmoid READ QmlPlasmoid)
+    Q_PROPERTY(bool QmlPlasmoid READ QmlPlasmoid NOTIFY QmlPlasmoidChanged)
 
     explicit Settings(QObject *parent = 0);
     ~Settings();
@@ -23,6 +23,8 @@ public:
     bool Android() const;
     bool Unix() const;
     bool QmlPlasmoid() const;
+
+    Q_SIGNAL void QmlPlasmoidChanged(bool);
 
     Q_INVOKABLE void setValue(const QString &key, const QVariant &value);
     Q_INVOKABLE QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const;

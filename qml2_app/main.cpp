@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_ANDROID
     engine.addImportPath("assets:/plugins");
 #endif //Q_OS_ANDROID
-    engine.load(QUrl(QStringLiteral("qrc:/q2Loader.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/q2Loader.qml")));
     //    engine.load(QUrl(QStringLiteral("qrc:/JustTest.qml")));
 #else //PLASMA_WIDGET
     QtQuick1ApplicationViewer viewer;
