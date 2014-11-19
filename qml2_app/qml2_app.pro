@@ -12,7 +12,7 @@ RESOURCES += qml.qrc
 DESTDIR = ../bin
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+unix: !android {QML_IMPORT_PATH=/usr/lib64/kde4/imports}
 
 android {
     ANDROID_EXTRA_LIBS += $$OUT_PWD/../bin/CurrcData/libcurrcdataplugin.so \
