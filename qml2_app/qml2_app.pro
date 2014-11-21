@@ -18,8 +18,11 @@ android {
     ANDROID_EXTRA_LIBS += $$OUT_PWD/../bin/CurrcData/libcurrcdataplugin.so \
                           $$OUT_PWD/../bin/CurrcData/liburlLoader.so
 } else: contains(DEFINES, PLASMA_WIDGET) {
+
+
     QML_FILEPATH=$$PWD/qml
     DEPLOYMENT_FILEPATH=$$PWD/Deployment
+
     qml.files = $$QML_FILEPATH/CInputEdit.qml \
                 $$QML_FILEPATH/CListView.qml \
                 $$QML_FILEPATH/CMainList.qml \

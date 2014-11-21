@@ -61,12 +61,6 @@ Item {
                 text: name
             }
 
-            CurrencyFilterModel {
-                id: m_model
-
-                Component.onCompleted: refresh()
-            }
-
             CListView {
                 id: cur_list
 

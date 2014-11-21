@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 1.1
 import CurrcData 1.0
 import QtQuick.Window 2.0
 

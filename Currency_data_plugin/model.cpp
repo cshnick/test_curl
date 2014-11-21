@@ -119,7 +119,10 @@ void NbRbParser::parse(const QDomDocument &doc)
     //RB is hardcoded
     CurrencyData byr;
     byr.setCode("BYR");
-    byr.setName("Белорусский рубль");
+    //Qt quick 1 work around
+    std::setlocale(LC_CTYPE, "en_US.UTF-8");
+    std::wstring name = L"Белорусский рубль";
+    byr.setName(QString::fromStdWString(name));
     byr.setValue(1.0);
     uint nextValue = m_context->m_colorstack.getValue();
     byr.setAlt_color(QColor::fromRgba(nextValue).name());

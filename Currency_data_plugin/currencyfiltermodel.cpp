@@ -42,6 +42,7 @@ QString CurrencyFilterModel::get_name(int p_index)
 
 void CurrencyFilterModel::refresh()
 {
-    qDebug() << "CurrencyFilterModel::refresh";
+    static int i = 0;
+    qDebug() << "<=====>CurrencyFilterModel::refresh; call no" << ++i;
     model_impl()->refresh();
 }
