@@ -44,6 +44,16 @@ Window {
             }
         }
 
+        MouseArea {
+            anchors.fill: parent
+
+            enabled: settings_panel.x === 0
+            onClicked: {
+                console.log("Disabling area clicked")
+                window_wrapper.state = ""
+            }
+        }
+
         SettingsPanel {
             id: settings_panel
 
@@ -61,7 +71,7 @@ Window {
         states: [
             State {
                 name: "show_settings"
-                PropertyChanges { target: settings_panel; x: 0 }
+                PropertyChanges { target: settings_panel; x: 0; visible: true }
 //                PropertyChanges { target: main_list; opacity: 0}
             }
         ]
