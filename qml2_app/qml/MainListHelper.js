@@ -24,12 +24,39 @@ function from_formatted(arg) {
 }
 
 function elemFromParams(index, model) {
-    console.log("elemFromParams-> : ", model.get(index, EnumProvider.ColorNameRole))
     return ({"name":model.get(index, EnumProvider.NameRole),
                 "code":model.get(index, EnumProvider.CodeRole),
                 "color_val":model.get(index, EnumProvider.ColorNameRole),
                 "value":model.get(index, EnumProvider.ValueRole)
             })
+}
+
+// Index - index from main list 0 or 1
+// Settings - QSettings subclass
+function elemFromSettings(index, settings, engine) {
+    var path_string = "main/" + engine + "/" + index
+    var name = settings.value(path_string + "/name", "Tap to select currency")
+    var value = settings.value(path_string + "/value", "NaN")
+    var colorCode = settings.value(path_string + "/colorCode", "#888")
+    var code = settings.value(path_string + "/code", "UND")
+
+    return ({"name":name,
+                "value":value,
+                "color_val":colorCode,
+                "code":code
+            })
+}
+
+// index - currency model index
+// model - currency model
+// settings - QSettings subclass
+// root_index - inex from root model to store to
+function writeToSettings(index, model, settings, root_index) {
+    var path_string = "main/" + model.parser + "/" + root_index
+    settings.setValue(path_string + "/name", model.get(index, EnumProvider.NameRole))
+    settings.setValue(path_string + "/value", model.get(index, EnumProvider.ValueRole))
+    settings.setValue(path_string + "/colorCode", model.get(index, EnumProvider.ColorNameRole))
+    settings.setValue(path_string + "/code", model.get(index, EnumProvider.CodeRole))
 }
 
 function Model_context(model, index, countText) {

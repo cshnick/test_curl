@@ -4,18 +4,18 @@ import QtGraphicalEffects 1.0
 Item {
     id: root_item
 
-    MouseArea {
-        id: root_area
-
-        anchors.fill: rect_test
-    }
-
     Item {
         id: container;
         x: -(2 * rectShadow.radius)
         y: 0
         width:  rect_test.width  + (2 * rectShadow.radius);
         height: rect_test.height + (2 * rectShadow.radius);
+
+        MouseArea {
+            id: root_area
+
+            anchors.fill: rect_test
+        }
 
         Rectangle {
             id: rect_test

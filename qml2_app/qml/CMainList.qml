@@ -73,23 +73,8 @@ Item {
                 icontextsize: window.global_height * 0.025
                 itemtextpixsize: window.global_height * 0.025
 
-                function checkIndex(pl_index) {
-                    var engine = m_model.parser
-                    console.log("engine selected: " + engine)
-                    var path_string = "main/" + engine + "/index" + lstView.currentIndex
-                    var name = settings.value(path_string + "/name", "NaN")
-                    var value = settings.value(path_string + "/value", "NaN")
-                    var colorCode = settings.value(path_string + "/colorCode", "NaN")
-                    var code = setttings.value(path_string + "/code", "NaN")
-
-                    if (value === "NaN") {
-                        settings.setValue()
-                    }
-                }
-
                 function process_index(pl_index) {
-                    checkIndex(pl_index)
-                    settings.setValue("main/index" + index, pl_index)
+                    JSHelper.writeToSettings(pl_index, lstView.model, settings, index)
                     root_item.state = ""
 
                     var root_model = root_item.ListView.view.model
@@ -259,6 +244,13 @@ Item {
             color_val: "#F075B7"
             m_index: 145
             count: 0
+        }
+
+        Component.onCompleted: {
+            var elem1 = JSHelper.elemFromSettings(0, settings, m_model.parser)
+            console.log("list model completed")
+            set(0, JSHelper.elemFromSettings(0, settings, m_model.parser))
+            set(1, JSHelper.elemFromSettings(1, settings, m_model.parser))
         }
     }
 

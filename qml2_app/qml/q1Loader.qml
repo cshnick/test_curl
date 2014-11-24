@@ -1,8 +1,8 @@
 import CurrcData 1.0
 import QtQuick 1.1 as Q
 import QtQuick 1.1
-import org.kde.plasma.core 0.1 as PlasmaCore
-import org.kde.plasma.components 0.1 as PlasmaComponents
+//import org.kde.plasma.core 0.1 as PlasmaCore
+//import org.kde.plasma.components 0.1 as PlasmaComponents
 
 Q.Rectangle {
     id: window
