@@ -1,4 +1,4 @@
-import QtQuick 1.1
+import QtQuick 2.0
 import CurrcData 1.0
 
 import "MainListHelper.js" as JSHelper
@@ -73,7 +73,22 @@ Item {
                 icontextsize: window.global_height * 0.025
                 itemtextpixsize: window.global_height * 0.025
 
+                function checkIndex(pl_index) {
+                    var engine = m_model.parser
+                    console.log("engine selected: " + engine)
+                    var path_string = "main/" + engine + "/index" + lstView.currentIndex
+                    var name = settings.value(path_string + "/name", "NaN")
+                    var value = settings.value(path_string + "/value", "NaN")
+                    var colorCode = settings.value(path_string + "/colorCode", "NaN")
+                    var code = setttings.value(path_string + "/code", "NaN")
+
+                    if (value === "NaN") {
+                        settings.setValue()
+                    }
+                }
+
                 function process_index(pl_index) {
+                    checkIndex(pl_index)
                     settings.setValue("main/index" + index, pl_index)
                     root_item.state = ""
 

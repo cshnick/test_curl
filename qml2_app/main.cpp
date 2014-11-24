@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     engine.addImportPath("assets:/plugins");
 #endif //Q_OS_ANDROID
     engine.load(QUrl(QStringLiteral("qrc:/qml/q2Loader.qml")));
-    //    engine.load(QUrl(QStringLiteral("qrc:/JustTest.qml")));
+//        engine.load(QUrl(QStringLiteral("qrc:/qml/JustTest.qml")));
 #else //PLASMA_WIDGET
     QtQuick1ApplicationViewer viewer;
     viewer.addImportPath(QLatin1String("modules"));

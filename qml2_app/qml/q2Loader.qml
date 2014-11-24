@@ -1,4 +1,4 @@
-import QtQuick 1.1
+import QtQuick 2.0
 import CurrcData 1.0
 import QtQuick.Window 2.0
 
@@ -16,5 +16,60 @@ Window {
     height: global_height
     visible: true
 
-    CMainList {}
+    Item {
+        id: window_wrapper
+
+        anchors.fill: parent
+
+        CMainList {id: main_list}
+
+        CurrencyFilterModel {
+            id: m_model
+
+            Component.onCompleted: refresh()
+        }
+
+        MouseArea {
+            id: settingsArea
+            anchors.top: parent.top
+            anchors.left: parent.left
+
+            height: parent.height
+            width: global_width * 0.025
+            z: 1
+
+            onClicked: {
+                console.log("settingsarea clicked")
+                window_wrapper.state = "show_settings"
+            }
+        }
+
+        SettingsPanel {
+            id: settings_panel
+
+            width: global_width - global_width * 0.1
+            height: parent.height
+
+            x: -width
+            y: 0
+
+            Component.onCompleted: {
+                console.log("settings panel width: " + width + "; global width: " + global_width)
+            }
+        }
+
+        states: [
+            State {
+                name: "show_settings"
+                PropertyChanges { target: settings_panel; x: 0 }
+//                PropertyChanges { target: main_list; opacity: 0}
+            }
+        ]
+
+        transitions: [
+            Transition {
+                NumberAnimation {properties: "x"; duration: 150}
+            }
+        ]
+    }
 }

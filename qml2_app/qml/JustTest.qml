@@ -1,51 +1,43 @@
-import QtQuick 1.1
-import CurrcData 1.0
+import QtQuick.Window 2.0
 
-Rectangle {
-    width: 270
-    height: 480
+import QtQuick 2.0
+import QtGraphicalEffects 1.0
+
+Window {
+    width: 320;
+    height: 240;
     visible: true
-    //    Rectangle {
-    //        anchors.fill: parent
 
-    //        color: "blue"
-    //        opacity: 0.3
-    //    }
-    ListView {
-        anchors.fill: parent
-        delegate: Item {
-            height: 40
-//            anchors.fill: parent
-            Rectangle {
-                id: image
-                height: parent.height
-                width: height
+    Item {
+        id: container;
+        anchors.centerIn: parent;
+        width:  rect.width  + (2 * rectShadow.radius);
+        height: rect.height + (2 * rectShadow.radius);
 
-                color: "blue"
-                Text {
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    anchors.fill: parent
-                    font.bold: true
-                    text: index
-                    color: "white"
-                }
+        Rectangle {
+            id: rect
+            width: 100;
+            height: 50;
+            color: "orange";
+            radius: 7;
+            antialiasing: true;
+            border {
+                width: 2;
+                color: "red";
             }
-            Text {
-                x: image.width + 5
-                y: 0
-                width: parent.width - x
-                height: image.height
-                verticalAlignment: Text.AlignVCenter
-
-                text: mdl.get(index, EnumProvider.ValueRole)
-            }
-
+            anchors.centerIn: parent;
         }
-        model: CurrencyFilterModel {
-            id: mdl
-
-            Component.onCompleted: refresh()
-        }
+    }
+    DropShadow {
+        id: rectShadow;
+        anchors.fill: source
+        cached: true;
+        horizontalOffset: 3;
+        verticalOffset: 3;
+        radius: 8.0;
+        samples: 16;
+        color: "#80000000";
+        smooth: true;
+        source: container;
     }
 }

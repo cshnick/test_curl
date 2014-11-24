@@ -6,6 +6,11 @@
 
 namespace url {
 class Loader;
+
+enum Currency_Loader {
+    E_FOREX_LOADER = 0,
+    E_NBRB_LOADER
+};
 }
 
 class QDomDocument;
@@ -29,6 +34,8 @@ public:
     static DomParser *create(CurrencyDataModel *p_context) {return Dereived::create(p_context);}
     virtual QString url() const = 0;
     virtual void parse(const QDomDocument &doc) = 0;
+    virtual url::Currency_Loader loaderType() const = 0;
+    virtual QString loaderTypeString() const = 0;
 };
 
 class ForexParser : public DomParser {
@@ -37,6 +44,8 @@ public:
     static DomParser *create(CurrencyDataModel *p_context);
     QString url() const;
     void parse(const QDomDocument &doc);
+    url::Currency_Loader loaderType() const;
+    QString loaderTypeString() const;
 
 private:
     CurrencyDataModel *m_context;
@@ -48,6 +57,8 @@ public:
     static DomParser *create(CurrencyDataModel *p_context);
     virtual QString url() const;
     void parse(const QDomDocument &doc);
+    url::Currency_Loader loaderType() const;
+    QString loaderTypeString() const;
 
 private:
     CurrencyDataModel *m_context;
@@ -60,6 +71,11 @@ class CurrencyDataModel : public QAbstractListModel
 
     Q_OBJECT
 public:
+    enum Currency_Loader {
+        E_FOREX_LOADER = 0,
+        E_NBRB_LOADER
+    };
+
     CurrencyDataModel(QObject *parent = 0);
 
     void append(CurrencyData data);
@@ -67,6 +83,7 @@ public:
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
 
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+    DomParser *parser() const {return m_parser;}
     Q_INVOKABLE void refresh();
 
 protected:

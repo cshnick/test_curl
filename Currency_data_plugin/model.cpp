@@ -35,6 +35,9 @@ static void genColorsAsStream(const QString fileName, uint elCount) {
     qDebug() << "Finished color map generation, elapsed time" << cur.msecsTo(QTime::currentTime());
 }
 
+static const QString forex_string = "forex";
+static const QString nbrb_string = "nbrb";
+
 GColorStack::GColorStack() : m_counter(0) {
     qDebug() << "GColorStack constructor";
 
@@ -102,6 +105,15 @@ void ForexParser::parse(const QDomDocument &doc)
     }
 }
 
+url::Currency_Loader ForexParser::loaderType() const
+{
+    return url::E_FOREX_LOADER;
+}
+QString ForexParser::loaderTypeString() const
+{
+    return forex_string;
+}
+
 NbRbParser::NbRbParser(CurrencyDataModel *p) : m_context(p) {}
 DomParser *NbRbParser::create(CurrencyDataModel *p_context)
 {
@@ -147,6 +159,14 @@ void NbRbParser::parse(const QDomDocument &doc)
         cel.setAlt_color(QColor::fromRgba(nextValue).name());
         m_context->append(cel);
     }
+}
+url::Currency_Loader NbRbParser::loaderType() const
+{
+    return url::E_NBRB_LOADER;
+}
+QString NbRbParser::loaderTypeString() const
+{
+    return nbrb_string;
 }
 
 CurrencyDataModel::CurrencyDataModel(QObject *parent)

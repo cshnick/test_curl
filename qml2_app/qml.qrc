@@ -9,5 +9,7 @@
         <file>qml/q1Loader.qml</file>
         <file>qml/CMainList1Delegate.qml</file>
         <file>qml/CMainList2Delegate.qml</file>
+        <file>qml/SettingsPanel.qml</file>
+        <file>images/table.jpg</file>
     </qresource>
 </RCC>

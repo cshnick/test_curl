@@ -10,11 +10,17 @@ class CurrencyFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
+    Q_PROPERTY(QString parser READ parser WRITE setParser NOTIFY parserChanged)
+
     explicit CurrencyFilterModel(QObject *parent = 0);
     Q_INVOKABLE void stringChanged(const QString &p_str);
     Q_INVOKABLE QVariant get(int p_index, int role);
     Q_INVOKABLE QString get_name(int p_index);
     Q_INVOKABLE void refresh();
+
+    QString parser();
+    void setParser(const QString &p_parser);
+    Q_SIGNAL void parserChanged(const QString &p_newLoader);
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;

@@ -5,6 +5,35 @@
 #include "CurrencyData.h"
 #include "EnumProvider.h"
 
+const QString forex_string = "forex";
+const QString nbrb_string = "nbrb";
+
+QString currencyE2S(int p_ldr)
+{
+    QString result;
+    switch(p_ldr) {
+    case url::E_FOREX_LOADER:
+        result = forex_string;
+        break;
+    case url::E_NBRB_LOADER:
+        result = nbrb_string;
+        break;
+    }
+    return result;
+}
+
+url::Currency_Loader currencyS2E(const QString &p_strtype)
+{
+    url::Currency_Loader result;
+    if (p_strtype == forex_string) {
+        result =  url::E_FOREX_LOADER;
+    } else if (p_strtype == nbrb_string) {
+        result = url::E_NBRB_LOADER;
+    }
+
+    return result;
+}
+
 CurrencyFilterModel::CurrencyFilterModel(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
@@ -45,4 +74,15 @@ void CurrencyFilterModel::refresh()
     static int i = 0;
     qDebug() << "<=====>CurrencyFilterModel::refresh; call no" << ++i;
     model_impl()->refresh();
+}
+
+QString CurrencyFilterModel::parser()
+{
+    return model_impl()->parser()->loaderTypeString();
+}
+
+void CurrencyFilterModel::setParser(const QString &p_parser)
+{
+    Q_UNUSED(p_parser)
+    qDebug() << "CurrencyFilterModel::setLoader(const QString &p_loader) is not implemented yet";
 }
