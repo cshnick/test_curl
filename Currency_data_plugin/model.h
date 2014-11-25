@@ -87,6 +87,8 @@ public:
     Q_INVOKABLE void refresh();
     int indexFromCode(const QString &code);
 
+    Q_SIGNAL void loadFinished();
+
 protected:
     QHash<int, QByteArray> roleNames() const;
 

@@ -225,6 +225,7 @@ QHash<int, QByteArray> CurrencyDataModel::roleNames() const {
 
 void CurrencyDataModel::onAsyncDownload(const QDomDocument &doc)
 {
+    emit loadFinished();
     fillFromDom(doc);
 }
 

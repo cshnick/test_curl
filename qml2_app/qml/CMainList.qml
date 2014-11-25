@@ -92,8 +92,6 @@ Item {
                 }
 
                 lstView.model: m_model
-
-                lstView.currentIndex: m_index
                 opacity: 0
             }
 
@@ -239,14 +237,12 @@ Item {
             value: 0
             count: "1"
             color_val: ""
-            m_index: 22
         }
         ListElement {
             name: ""
             code: ""
             value: 0
             color_val: ""
-            m_index: 145
             count: "0"
         }
 
