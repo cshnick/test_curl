@@ -115,6 +115,8 @@ Item {
                 onTextChanged: {
                     if (textFocus) { //Disable recursive onTextChanged calls
                         var c = new JSHelper.Model_context(root_model, index, text)
+//                        root_model.setProperty(c.other_index, "count", c.formatted_calc())
+                        console.log("Alternative index: " + c.other_index + "Count: " + root_model.count)
                         root_model.setProperty(c.other_index, "count", c.formatted_calc())
                     }
                 }
@@ -235,7 +237,7 @@ Item {
             name: ""
             code: ""
             value: 0
-            count: 1
+            count: "1"
             color_val: ""
             m_index: 22
         }
@@ -245,7 +247,7 @@ Item {
             value: 0
             color_val: ""
             m_index: 145
-            count: 0
+            count: "0"
         }
 
         Component.onCompleted: {
