@@ -141,7 +141,6 @@ void NbRbParser::parse(const QDomDocument &doc)
     m_context->append(byr);
 
     for (QDomElement nx = doc.documentElement().firstChildElement(); !nx.isNull(); nx = nx.nextSiblingElement()) {
-        qDebug() << "nbrb tag name" << nx.tagName();
         if (nx.tagName() != "Currency") {
             continue;
         }
@@ -260,4 +259,17 @@ void CurrencyDataModel::refresh()
     fillModel();
     qDebug() << "retreived data, elapsed time" << cur.msecsTo(QTime::currentTime());
     qDebug() << "new count" << m_currencies.count();
+}
+
+int CurrencyDataModel::indexFromCode(const QString &code)
+{
+    int res = -1;
+    for (int i = 0; i < m_currencies.count(); i++) {
+        CurrencyData dta = m_currencies.at(i);
+        if (dta.code() == code) {
+            res = i;
+            break;
+        }
+    }
+    return res;
 }

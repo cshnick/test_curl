@@ -38,6 +38,7 @@ CurrencyFilterModel::CurrencyFilterModel(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
     setSourceModel(new CurrencyDataModel);
+    sort(0);
     setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
@@ -52,6 +53,19 @@ bool CurrencyFilterModel::filterAcceptsRow(int source_row, const QModelIndex &so
             || code_data.contains(filterRegExp());
 
     return accept;
+}
+
+bool CurrencyFilterModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+//    qDebug() << "less than call";
+
+    QString name_data_left = left.data(EnumProvider::NameRole).toString();
+    QString code_data_left = left.data(EnumProvider::CodeRole).toString();
+
+    QString name_data_right = right.data(EnumProvider::NameRole).toString();
+    QString code_data_fight = right.data(EnumProvider::CodeRole).toString();
+
+    return name_data_left < name_data_right;
 }
 
 
@@ -74,6 +88,12 @@ void CurrencyFilterModel::refresh()
     static int i = 0;
     qDebug() << "<=====>CurrencyFilterModel::refresh; call no" << ++i;
     model_impl()->refresh();
+}
+
+int CurrencyFilterModel::indexFromCode(const QString &code)
+{
+    int res = mapFromSource(sourceModel()->index(model_impl()->indexFromCode(code), 0)).row();
+    return res;
 }
 
 QString CurrencyFilterModel::parser()

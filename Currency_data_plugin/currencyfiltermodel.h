@@ -17,6 +17,7 @@ public:
     Q_INVOKABLE QVariant get(int p_index, int role);
     Q_INVOKABLE QString get_name(int p_index);
     Q_INVOKABLE void refresh();
+    Q_INVOKABLE int indexFromCode(const QString &code);
 
     QString parser();
     void setParser(const QString &p_parser);
@@ -24,7 +25,7 @@ public:
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
-//    bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
 
 private:
     CurrencyDataModel *model_impl() {

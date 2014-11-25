@@ -136,7 +136,7 @@ Item {
                 font.pixelSize: global_height * 0.0625 / 2
                 textColor: "#2E6496"
                 font.bold: false
-                onInputTextChanged: cur_list.lstView.model.stringChanged(text)
+                onInputTextChanged: m_model.stringChanged(text)
 
                 Keys.onUpPressed: {
                     cur_list.lstView.decrementCurrentIndex()
@@ -170,7 +170,9 @@ Item {
                     console.log("value edit focus: " + valueEdit.focus)
                     valueEdit.focus = true
                     root_item.state = "CHOOSE"
-                    var index1 = settings.value("main/index1", 22)
+                    console.log("requesting code: " + root_model.get(index).code)
+                    m_model.stringChanged("")
+                    var index1 = m_model.indexFromCode(root_model.get(index).code)
                     cur_list.lstView.currentIndex = index1
                     cur_list.lstView.positionViewAtIndex(index1, ListView.Beginning)
                     if (!settings.Android) {
@@ -230,18 +232,18 @@ Item {
         id: root_model
 
         ListElement {
-            name: "Belarus Ruble"
-            code: "BYR"
-            value: 13622.697606962
-            count: "1"
-            color_val: "#63BBEA"
+            name: ""
+            code: ""
+            value: 0
+            count: 1
+            color_val: ""
             m_index: 22
         }
         ListElement {
-            name: "US Dollar"
-            code: "USD"
-            value: 1.2737
-            color_val: "#F075B7"
+            name: ""
+            code: ""
+            value: 0
+            color_val: ""
             m_index: 145
             count: 0
         }

@@ -36,12 +36,13 @@ function elemFromParams(index, model) {
 function elemFromSettings(index, settings, engine) {
     var path_string = "main/" + engine + "/" + index
     var name = settings.value(path_string + "/name", "Tap to select currency")
-    var value = settings.value(path_string + "/value", "NaN")
+    var val = settings.value(path_string + "/value", "NaN")
+    console.log("Reading value for index: " + index + " - " + val)
     var colorCode = settings.value(path_string + "/colorCode", "#888")
     var code = settings.value(path_string + "/code", "UND")
 
     return ({"name":name,
-                "value":value,
+                "value":parseFloat(val),
                 "color_val":colorCode,
                 "code":code
             })

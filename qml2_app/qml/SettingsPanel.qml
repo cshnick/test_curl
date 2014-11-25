@@ -28,31 +28,29 @@ Item {
 
         Column {
             x: (2 * rectShadow.radius);
-            y:  (2 * rectShadow.radius);
-            width: rect_test.width
+            y:  rectShadow.radius
+            width: rect_test.width - rectShadow.radius
             height: rect_test.height
             id: id_col
-            spacing: 5
-
-            Text {
-                x: 20
-                text: "Settings"
-                font.pixelSize: window.global_height * 0.05
-                font.bold: true
-                color: "#444"
-            }
+            spacing: 0
 
             Rectangle {
-                x: 2 * rectShadow.radius
-                color: "#444"
-                width: rect_test.width - 4 * rectShadow.radius;
+                id: deco
+                x: 0
+                width: parent.width
+                height: window.global_height * 0.083
+                color: "#2E6496"
 
-                height: 2
-                border.width: 2
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    x: 20
+                    text: "Settings"
+                    font.pixelSize: window.global_height * 0.04
+                    font.bold: true
+                    color: "#EEE"
+                }
             }
         }
-
-
     }
     DropShadow {
         id: rectShadow;

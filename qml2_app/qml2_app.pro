@@ -37,3 +37,4 @@ android {
 
     INSTALLS += qml metafile
 }
+unix: ICON = $$PWD/Deployment/euro_arrows.svg

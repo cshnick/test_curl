@@ -85,6 +85,7 @@ public:
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
     DomParser *parser() const {return m_parser;}
     Q_INVOKABLE void refresh();
+    int indexFromCode(const QString &code);
 
 protected:
     QHash<int, QByteArray> roleNames() const;
