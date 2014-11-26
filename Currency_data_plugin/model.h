@@ -83,11 +83,14 @@ public:
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
 
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-    DomParser *parser() const {return m_parser;}
+    DomParser *current_parser() const {return m_parsers[m_currnt_parser];}
+    void setCurrentParser(const QString &parserName);
+    QStringList parserNames() const;
     Q_INVOKABLE void refresh();
     int indexFromCode(const QString &code);
 
     Q_SIGNAL void loadFinished();
+    Q_SIGNAL void parserChanged(const QString &p);
 
 protected:
     QHash<int, QByteArray> roleNames() const;
@@ -103,7 +106,8 @@ private:
     QList<CurrencyData> m_currencies;
     url::Loader *m_loader;
     GColorStack m_colorstack;
-    DomParser *m_parser;
+    QList<DomParser *>m_parsers;
+    int m_currnt_parser;
 };
 
 

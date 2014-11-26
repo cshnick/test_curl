@@ -84,4 +84,46 @@ Model_context.prototype.formatted_calc = function() {
     return to_formatted(this.calculate())
 }
 
+//settings helper
+function sts_hlpr(settings) {
+    this.settings = settings
+}
+
+function engine(p_engine) {
+    this.engine = p_engine
+    return this
+}
+
+function index(index) {
+    this.index = index
+    return this
+}
+
+sts_hlpr.prototype.engine = engine
+engine.prototype.index = index
+
+engine.prototype.path = function() {
+    return "main/" + this.engine
+}
+
+index.prototype.path = function() {
+    return __proto__.path + "/" + index
+}
+
+index.prototype.name = function() {
+    return this.settings(this.path + "/name", "NaN")
+}
+
+function make_path() {
+    var i, res
+    res = "main/"
+    for (i = 0; i < arguments.length; i++) {
+        res += arguments[i]
+        if (i < arguments.length - 1) {
+            res += "/"
+        }
+    }
+    return res
+}
+
 

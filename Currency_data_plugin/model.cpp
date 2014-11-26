@@ -171,9 +171,11 @@ QString NbRbParser::loaderTypeString() const
 CurrencyDataModel::CurrencyDataModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_loader(new url::Loader)
+    , m_currnt_parser(0)
 {
     qDebug() << "CurrencyDataModel constructor start";
-    m_parser = DomParser::create<NbRbParser>(this);
+    m_parsers << DomParser::create<NbRbParser>(this);
+    m_parsers << DomParser::create<ForexParser>(this);
 //    m_parser = DomParser::create<ForexParser>(this);
     connect(m_loader, SIGNAL(documentDownloaded(QDomDocument)), this, SLOT(onAsyncDownload(QDomDocument)));
 }
@@ -214,6 +216,28 @@ QVariant CurrencyDataModel::data(const QModelIndex & index, int role) const {
     }
 }
 
+void CurrencyDataModel::setCurrentParser(const QString &parserName)
+{
+    for (int i = 0; i < m_parsers.count(); i++) {
+        DomParser *p = m_parsers[i];
+        if (p->loaderTypeString() == parserName) {
+            m_currnt_parser = i;
+            Q_EMIT parserChanged(parserName);
+            break;
+        }
+    }
+
+}
+
+QStringList CurrencyDataModel::parserNames() const {
+    QStringList result;
+    foreach (DomParser *p, m_parsers) {
+        result << p->loaderTypeString();
+    }
+
+    return result;
+}
+
 QHash<int, QByteArray> CurrencyDataModel::roleNames() const {
     QHash<int, QByteArray> roles;
     roles[EnumProvider::CodeRole] = "code";
@@ -231,7 +255,7 @@ void CurrencyDataModel::onAsyncDownload(const QDomDocument &doc)
 
 void CurrencyDataModel::fillModel()
 {
-    m_loader->setUrl(m_parser->url());
+    m_loader->setUrl(m_parsers[m_currnt_parser]->url());
     QDomDocument doc = m_loader->getDom();
     if (doc.isNull()) {
         qDebug() << "No data within DOM";
@@ -245,7 +269,7 @@ void CurrencyDataModel::fillFromDom(const QDomDocument &doc)
     if (doc.isNull()) {
         return;
     }
-    m_parser->parse(doc);
+    m_parsers[m_currnt_parser]->parse(doc);
 }
 
 void CurrencyDataModel::refresh()

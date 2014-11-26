@@ -251,6 +251,14 @@ Item {
             console.log("list model completed")
             set(0, JSHelper.elemFromSettings(0, settings, m_model.parser))
             set(1, JSHelper.elemFromSettings(1, settings, m_model.parser))
+
+            var path1 = JSHelper.make_path(m_model.parser, 0)
+            var path2 = JSHelper.make_path(m_model.parser, 1)
+            var val1 = settings.value(path1 + "/value", "NaN")
+            var val2 = settings.value(path2 + "/value", "NaN")
+            var calc_result = JSHelper.calculate(val1, val2, 1)
+
+            setProperty(1, "count", JSHelper.to_formatted(calc_result))
         }
     }
 

@@ -98,7 +98,7 @@ int CurrencyFilterModel::indexFromCode(const QString &code)
 
 QString CurrencyFilterModel::parser()
 {
-    return model_impl()->parser()->loaderTypeString();
+    return model_impl()->current_parser()->loaderTypeString();
 }
 
 void CurrencyFilterModel::setParser(const QString &p_parser)
