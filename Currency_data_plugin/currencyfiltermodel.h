@@ -18,8 +18,9 @@ public:
     Q_INVOKABLE QString get_name(int p_index);
     Q_INVOKABLE void refresh();
     Q_INVOKABLE int indexFromCode(const QString &code);
+    Q_INVOKABLE QStringList parserNames() const;
 
-    QString parser();
+    QString parser() const;
     void setParser(const QString &p_parser);
     Q_SIGNAL void parserChanged(const QString &p_newLoader);
 
@@ -29,6 +30,9 @@ protected:
 
 private:
     CurrencyDataModel *model_impl() {
+        return reinterpret_cast<CurrencyDataModel*> (this->sourceModel());
+    }
+    CurrencyDataModel *model_impl() const {
         return reinterpret_cast<CurrencyDataModel*> (this->sourceModel());
     }
 };

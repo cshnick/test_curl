@@ -1,5 +1,7 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 1.2
+import CurrcData 1.0
 
 Item {
     id: root_item
@@ -26,13 +28,12 @@ Item {
             anchors.centerIn: parent;
         }
 
-        Column {
+        Item {
             x: (2 * rectShadow.radius);
             y:  rectShadow.radius
             width: rect_test.width - rectShadow.radius
             height: rect_test.height
             id: id_col
-            spacing: 0
 
             Rectangle {
                 id: deco
@@ -50,6 +51,38 @@ Item {
                     color: "#EEE"
                 }
             }
+            ListView {
+
+                y: deco.height + window.global_height * 0.025 //offset
+                width: parent.width
+                height: container.height / 1.5
+                delegate: Component {
+                    id: engine_delegate
+
+                    Item {
+                        width: parent.width
+                        height: window.global_height * 0.083
+                        id: root_engine_item
+                        Rectangle {
+                            height: 40
+                            anchors.fill: parent
+                            color: color_val
+                            ToolButton {
+                                anchors.centerIn: parent
+                                width: parent.width / 1.5
+                                height: parent.height / 2
+                                text: name
+                            }
+
+                        }
+                        Component.onCompleted: {
+                            console.log("Delegate completed")
+                        }
+                    }
+
+                }
+                model: engine_model
+            }
         }
     }
     DropShadow {
@@ -64,5 +97,20 @@ Item {
         smooth: true;
         source: container;
     }
+
+    ListModel {
+        id: engine_model
+
+        Component.onCompleted: {
+            console.log("entering list")
+            var lst = m_model.parserNames()
+            for (var i = 0; i < lst.length; i++ ) {
+                console.log("next iter")
+                append({"name":lst[i],
+                           "color_val": "#ccc"});
+            }
+        }
+    }
+
 
 }

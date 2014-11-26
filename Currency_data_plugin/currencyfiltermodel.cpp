@@ -40,6 +40,7 @@ CurrencyFilterModel::CurrencyFilterModel(QObject *parent) :
     setSourceModel(new CurrencyDataModel);
     sort(0);
     setFilterCaseSensitivity(Qt::CaseInsensitive);
+    connect(model_impl(), SIGNAL(parserChanged(QString)), this, SIGNAL(parserChanged(QString)));
 }
 
 bool CurrencyFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
@@ -68,7 +69,6 @@ bool CurrencyFilterModel::lessThan(const QModelIndex &left, const QModelIndex &r
     return name_data_left < name_data_right;
 }
 
-
 void CurrencyFilterModel::stringChanged(const QString &p_str)
 {
     setFilterFixedString(p_str);
@@ -96,13 +96,18 @@ int CurrencyFilterModel::indexFromCode(const QString &code)
     return res;
 }
 
-QString CurrencyFilterModel::parser()
+QStringList CurrencyFilterModel::parserNames() const
+{
+    return model_impl()->parserNames();
+}
+
+QString CurrencyFilterModel::parser() const
 {
     return model_impl()->current_parser()->loaderTypeString();
 }
 
 void CurrencyFilterModel::setParser(const QString &p_parser)
 {
-    Q_UNUSED(p_parser)
+    model_impl()->setCurrentParser(p_parser);
     qDebug() << "CurrencyFilterModel::setLoader(const QString &p_loader) is not implemented yet";
 }
