@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.2
 import CurrcData 1.0
 
 Item {
@@ -64,14 +65,46 @@ Item {
                         height: window.global_height * 0.083
                         id: root_engine_item
                         Rectangle {
-                            height: 40
+                            height: window.global_height * 0.083
                             anchors.fill: parent
-                            color: color_val
-                            ToolButton {
-                                anchors.centerIn: parent
-                                width: parent.width / 1.5
-                                height: parent.height / 2
+                            //                            color: color_val
+                            Button {
+                                id: engine_button
                                 text: name
+
+                                anchors.centerIn: parent
+                                width: parent.width / 1.2
+                                height: parent.height / 1.5
+                                activeFocusOnPress: true
+
+                                style: Component {
+                                    id: b_s
+                                    ButtonStyle {
+                                        id: style
+                                        background: Rectangle {
+                                            id: button_rect
+
+                                            width: parent.width
+                                            height: parent.height
+                                            color: control.activeFocus ? color_val : "#ccc"
+                                        }
+                                        label: Label {
+                                            horizontalAlignment: Text.AlignHCenter
+                                            verticalAlignment: Text.AlignVCenter
+                                            text: name
+                                            color: control.activeFocus ? "white" : "black"
+                                            font.bold: true
+                                        }
+                                    }
+                                }
+
+
+
+                                onClicked: {
+                                    console.log("Settings button clicked")
+                                }
+
+
                             }
 
                         }
@@ -102,12 +135,13 @@ Item {
         id: engine_model
 
         Component.onCompleted: {
+            var colorList = ["#0465D0", "#19CE5E"]
             console.log("entering list")
             var lst = m_model.parserNames()
             for (var i = 0; i < lst.length; i++ ) {
                 console.log("next iter")
                 append({"name":lst[i],
-                           "color_val": "#ccc"});
+                           "color_val": colorList[i]});
             }
         }
     }
