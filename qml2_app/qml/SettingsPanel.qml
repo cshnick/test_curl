@@ -52,6 +52,11 @@ Item {
                     color: "#EEE"
                 }
             }
+
+            ExclusiveGroup {
+                id: ex_group
+            }
+
             ListView {
 
                 y: deco.height + window.global_height * 0.025 //offset
@@ -71,11 +76,13 @@ Item {
                             Button {
                                 id: engine_button
                                 text: name
+                                exclusiveGroup: ex_group
 
                                 anchors.centerIn: parent
                                 width: parent.width / 1.2
                                 height: parent.height / 1.5
-                                activeFocusOnPress: true
+//                                activeFocusOnPress: true
+                                checkable: true
 
                                 style: Component {
                                     id: b_s
@@ -86,33 +93,33 @@ Item {
 
                                             width: parent.width
                                             height: parent.height
-                                            color: control.activeFocus ? color_val : "#ccc"
+                                            color: control.checked ? color_val : "#ccc"
                                         }
                                         label: Label {
                                             horizontalAlignment: Text.AlignHCenter
                                             verticalAlignment: Text.AlignVCenter
                                             text: name
-                                            color: control.activeFocus ? "white" : "black"
+                                            color: control.checked ? "white" : "black"
                                             font.bold: true
                                         }
                                     }
                                 }
-
-
-
                                 onClicked: {
                                     console.log("Settings button clicked")
                                 }
-
-
+                                onCheckedChanged: {
+                                    console.log("Checked changed new value: " + checked)
+                                    if (checked) {
+                                        m_model.parser = m_model.parserNames()[index]
+                                        m_model.refresh()
+                                    }
+                                }
                             }
-
                         }
                         Component.onCompleted: {
                             console.log("Delegate completed")
                         }
                     }
-
                 }
                 model: engine_model
             }

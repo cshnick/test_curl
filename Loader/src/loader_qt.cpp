@@ -46,6 +46,11 @@ QDomDocument LoaderPrivate::getDom()
     return res;
 }
 
+void LoaderPrivate::resetBuffer()
+{
+    m_buffer.clear();
+}
+
 void LoaderPrivate::replyFinished(QNetworkReply *reply)
 {
    m_buffer = reply->readAll();
@@ -77,6 +82,7 @@ QString Loader::url() const
 }
 void Loader::setUrl(const QString &p_url)
 {
+    p->resetBuffer();
     QString t_url = p_url;
     if (!p_url.startsWith("http://")) {
         t_url.prepend("http://");

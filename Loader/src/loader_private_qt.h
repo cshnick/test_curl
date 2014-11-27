@@ -22,6 +22,7 @@ public:
     bool getBuffer();
     void refresh();
     QDomDocument getDom();
+    void resetBuffer();
 
 private Q_SLOTS:
     void replyFinished(QNetworkReply *reply);
