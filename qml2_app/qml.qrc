@@ -11,5 +11,6 @@
         <file>qml/CMainList2Delegate.qml</file>
         <file>qml/SettingsPanel.qml</file>
         <file>images/table.jpg</file>
+        <file>qml/SettingsPanel/SettingsButton.qml</file>
     </qresource>
 </RCC>

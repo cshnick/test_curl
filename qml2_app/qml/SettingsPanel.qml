@@ -3,6 +3,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import CurrcData 1.0
+import "SettingsPanel" as SP
 
 Item {
     id: root_item
@@ -30,11 +31,11 @@ Item {
         }
 
         Item {
+            id: root_calcItem
             x: (2 * rectShadow.radius);
             y:  rectShadow.radius
             width: rect_test.width - rectShadow.radius
             height: rect_test.height
-            id: id_col
 
             Rectangle {
                 id: deco
@@ -53,75 +54,52 @@ Item {
                 }
             }
 
-            ExclusiveGroup {
-                id: ex_group
-            }
+            Flickable {
+                property int offset: window.global_height * 0.012
+                id: engine_groupbox
 
-            ListView {
-
-                y: deco.height + window.global_height * 0.025 //offset
+                y: deco.height + offset
                 width: parent.width
-                height: container.height / 1.5
-                delegate: Component {
-                    id: engine_delegate
+                height: root_calcItem.height - deco.height - offset
 
-                    Item {
-                        width: parent.width
-                        height: window.global_height * 0.083
-                        id: root_engine_item
-                        Rectangle {
-                            height: window.global_height * 0.083
-                            anchors.fill: parent
-                            //                            color: color_val
-                            Button {
-                                id: engine_button
-                                text: name
-                                exclusiveGroup: ex_group
+                Column {
+                    id: button_container
 
-                                anchors.centerIn: parent
-                                width: parent.width / 1.2
-                                height: parent.height / 1.5
-//                                activeFocusOnPress: true
-                                checkable: true
+                    spacing: 5
+                    width: parent.width
 
-                                style: Component {
-                                    id: b_s
-                                    ButtonStyle {
-                                        id: style
-                                        background: Rectangle {
-                                            id: button_rect
+                    Text {
+                        x: engine_groupbox.offset
+                        font.pixelSize: window.global_height * 0.028
+                        font.underline: true
+                        font.bold: true
+                        text: "Engines"
+                    }
 
-                                            width: parent.width
-                                            height: parent.height
-                                            color: control.checked ? color_val : "#ccc"
-                                        }
-                                        label: Label {
-                                            horizontalAlignment: Text.AlignHCenter
-                                            verticalAlignment: Text.AlignVCenter
-                                            text: name
-                                            color: control.checked ? "white" : "black"
-                                            font.bold: true
-                                        }
-                                    }
-                                }
-                                onClicked: {
-                                    console.log("Settings button clicked")
-                                }
-                                onCheckedChanged: {
-                                    console.log("Checked changed new value: " + checked)
-                                    if (checked) {
-                                        m_model.parser = m_model.parserNames()[index]
-                                        m_model.refresh()
-                                    }
-                                }
-                            }
-                        }
-                        Component.onCompleted: {
-                            console.log("Delegate completed")
+                    ExclusiveGroup {
+                        id: group_engines
+                    }
+
+                    function loadButton(text, color) {
+                        var component = Qt.createComponent("qrc:/qml/SettingsPanel/SettingsButton.qml");
+                        if (component.status === Component.Ready) {
+                            var button = component.createObject(button_container);
+                            button.text = text;
+                            button.color = color
+                            button.exclusiveGroup = group_engines
+                            button.x = engine_groupbox.offset
+                            button.width = button_container.width - 2 * engine_groupbox.offset
+                            //                        m_model.parserChanged.connect(connectButton())
+                        } else {
+                            console.log("=== Error: " + component.errorString())
                         }
                     }
+
+                    Component.onCompleted: {
+                        loadButton(m_model.parserNames()[0], "#0465D0")
+                        loadButton(m_model.parserNames()[1], "#19CE5E")
+                    }
                 }
-                model: engine_model
             }
         }
     }

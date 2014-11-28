@@ -22,7 +22,7 @@ public:
 
     QString parser() const;
     void setParser(const QString &p_parser);
-    Q_SIGNAL void parserChanged(const QString &p_newLoader);
+    Q_SIGNAL void parserChanged(const QString &parser);
 
 protected:
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;

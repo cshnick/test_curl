@@ -70,6 +70,14 @@ uint GColorStack::getValue() {
     return tmp;
 }
 
+void GColorStack::reset()
+{
+    m_counter = 0;
+    m_file.close();
+    m_file.open(QIODevice::ReadOnly);
+    m_dataStream >> m_count;
+}
+
 
 ForexParser::ForexParser(CurrencyDataModel *p) : m_context(p) {}
 DomParser *ForexParser::create(CurrencyDataModel *p_context)
@@ -82,6 +90,8 @@ QString ForexParser::url() const
 }
 void ForexParser::parse(const QDomDocument &doc)
 {
+    m_context->m_colorstack.reset();
+
     if (!m_context || doc.isNull()) {
         return;
     }
@@ -128,6 +138,8 @@ void NbRbParser::parse(const QDomDocument &doc)
     if (!m_context || doc.isNull()) {
         return;
     }
+
+    m_context->m_colorstack.reset();
     //RB is hardcoded
     CurrencyData byr;
     byr.setCode("BYR");

@@ -21,6 +21,7 @@ struct GColorStack {
 
     ~GColorStack() ;
     uint getValue();
+    void reset();
 
     QDataStream m_dataStream;
     QFile m_file;
@@ -90,7 +91,7 @@ public:
     int indexFromCode(const QString &code);
 
     Q_SIGNAL void loadFinished();
-    Q_SIGNAL void parserChanged(const QString &p);
+    Q_SIGNAL void parserChanged(const QString &parser);
 
 protected:
     QHash<int, QByteArray> roleNames() const;

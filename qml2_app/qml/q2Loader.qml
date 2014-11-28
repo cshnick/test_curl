@@ -16,6 +16,13 @@ Window {
     height: global_height
     visible: true
 
+    Connections {
+       target: m_model
+       onParserChanged: {
+            console.log("parser changed call from window, parser is " + parser)
+       }
+    }
+
     Item {
         id: window_wrapper
 
@@ -26,7 +33,11 @@ Window {
         CurrencyFilterModel {
             id: m_model
 
-            Component.onCompleted: refresh()
+            Component.onCompleted: parser = settings.value("main/engine", "nbrb")
+//            Component.onCompleted: refresh()
+            onParserChanged: {
+                refresh()
+            }
         }
 
         MouseArea {
