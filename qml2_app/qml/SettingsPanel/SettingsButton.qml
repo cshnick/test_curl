@@ -18,7 +18,7 @@ Button {
     }
 
     width: parent.width
-    height: 30
+    height: window.global_height * 0.065
 //    activeFocusOnPress: true
     checkable: true
 

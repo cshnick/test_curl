@@ -46,7 +46,7 @@ Window {
             anchors.left: parent.left
 
             height: parent.height
-            width: global_width * 0.025
+            width: global_width * 0.040
             z: 1
 
             onClicked: {

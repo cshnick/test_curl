@@ -65,7 +65,7 @@ Item {
                 Column {
                     id: button_container
 
-                    spacing: 5
+                    spacing: engine_groupbox.offset
                     width: parent.width
 
                     Text {
